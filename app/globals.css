@@ -1,0 +1,422 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   DESIGN TOKENS
+   Derived from docs/reference/reference.webp - a retro newspaper front page.
+   Never hardcode a hex value in a component; reach for a token.
+   =========================================================================== */
+
+@theme {
+  /* Ink and paper */
+  --color-paper: #f2efe8; /* page ground: warm off-white newsprint */
+  --color-paper-sub: #e8e4da; /* inset panels, image mats */
+  --color-paper-deep: #ddd8cb; /* pressed / active states */
+  /* Three tiers of ink. Every one of them clears WCAG AA (4.5:1) against both
+     --color-paper and --color-paper-sub, because all three are used on real
+     text at label size, not just on headings. Verified, not eyeballed — if you
+     retune these, re-check the ratios. */
+  --color-ink: #14110f; /* primary text, all rules      16.4 : 1 */
+  --color-ink-mute: #5c554c; /* captions, metadata            6.4 : 1 */
+  --color-ink-faint: #6b6358; /* tertiary: figure numbers      5.2 : 1 */
+
+  /* Spot colour, used the way a two-colour press would: sparingly.
+     Darker than a pure signal red so it holds AA at label size — the accent
+     carries small mono text (section numbers, kickers, organisations), not
+     just decoration. */
+  --color-accent: #c02e18; /* red: badges, active states    5.0 : 1 */
+  --color-gold: #e8b33c; /* the sticker / star accent */
+
+  /* Typefaces. Sources are defined in lib/fonts.ts. */
+  --font-display: var(--f-display), Didot, "Bodoni MT", "Times New Roman", serif;
+  --font-body: var(--f-body), Georgia, "Times New Roman", serif;
+  --font-mono: var(--f-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --breakpoint-3xl: 120rem;
+}
+
+/* NIGHT EDITION - the evening printing. Same paper, inverted press.
+   Because every colour is a token, the whole site flips with these lines. */
+[data-theme="night"] {
+  --color-paper: #14110f;
+  --color-paper-sub: #1e1a17;
+  --color-paper-deep: #2a2421;
+  --color-ink: #f2efe8;
+  --color-ink-mute: #a49b90;
+  --color-ink-faint: #8d8377;
+  --color-accent: #ff5334;
+}
+
+/* ===========================================================================
+   BASE
+   =========================================================================== */
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* Lenis drives scrolling; native smooth scroll would fight it. */
+    scroll-behavior: auto;
+  }
+
+  body {
+    font-family: var(--font-body);
+    line-height: 1.55;
+    /* Faint paper tooth. Two offset gradients read as uneven newsprint
+       without the weight of a texture image. */
+    background-image:
+      radial-gradient(
+        circle at 15% 12%,
+        color-mix(in srgb, var(--color-ink) 3%, transparent) 0%,
+        transparent 45%
+      ),
+      radial-gradient(
+        circle at 85% 78%,
+        color-mix(in srgb, var(--color-ink) 3%, transparent) 0%,
+        transparent 40%
+      );
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-paper);
+  }
+
+  /* Focus is never removed, only restyled to suit the paper. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 0.86;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* ===========================================================================
+   THE PRINT LANGUAGE
+   These classes are the grammar of the design. Composed, they should make a
+   new section look like it came off the same press as everything else.
+   =========================================================================== */
+
+@layer components {
+  /* Page shell. One consistent measure, so the vertical rules line up all
+     the way down the page. */
+  .shell {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 96rem;
+    padding-inline: clamp(1rem, 4vw, 3.5rem);
+  }
+
+  /* Hairlines. Always exactly 1px, never a soft border. They divide
+     content; they do not box it. */
+  .rule {
+    border: 0;
+    border-top: 1px solid var(--color-ink);
+    margin: 0;
+  }
+  .rule-thick {
+    border: 0;
+    border-top: 3px solid var(--color-ink);
+    margin: 0;
+  }
+  /* The classic newspaper double rule beneath a masthead. */
+  .rule-double {
+    border: 0;
+    height: 4px;
+    border-top: 1px solid var(--color-ink);
+    border-bottom: 3px solid var(--color-ink);
+    margin: 0;
+  }
+  .rule-l {
+    border-left: 1px solid var(--color-ink);
+  }
+  .rule-r {
+    border-right: 1px solid var(--color-ink);
+  }
+  .rule-t {
+    border-top: 1px solid var(--color-ink);
+  }
+  .rule-b {
+    border-bottom: 1px solid var(--color-ink);
+  }
+
+  /* Minimum tap target. The label type is 10.5px, which makes a bare link
+     about 19px tall — under the 24px WCAG 2.5.8 floor and genuinely fiddly on
+     a phone. Applied to every standalone link and button set in .label; not to
+     links inside running text, which the rule exempts. */
+  .tap {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+  }
+
+  /* The mono voice: section markers, datelines, captions, figure numbers. */
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    line-height: 1.4;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* Display type. The masthead is optically flush to its margins and sits
+     directly on the rule beneath it. */
+  /* The masthead fills its measure regardless of how long the name is.
+     Rather than a fixed viewport clamp — which leaves a short name stranded
+     in white space and overflows a long one — the size is derived from the
+     character count set inline as --masthead-chars.
+
+     --adv is the average advance width of a capital in this face, in ems, and
+     it is deliberately pessimistic. Bodoni Moda's caps average roughly 0.75em
+     at weight 700, but the figure varies by several points with the letters in
+     play: MW is far wider than IL. Rounding up costs a little type size and
+     buys a guarantee that no name overflows the measure, which is the right
+     trade — a masthead running off the edge of the page is the single most
+     visible way this design can break.
+
+     If you swap the display face, this is the number to re-tune. */
+  .masthead {
+    --mw: 88;
+    --adv: 0.78;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(
+      2.5rem,
+      calc(var(--mw) * 1vw / var(--masthead-chars, 6) / var(--adv)),
+      22rem
+    );
+    line-height: 0.78;
+    letter-spacing: -0.035em;
+    /* Didones sit optically inset; pull back to the true margin. */
+    margin-left: -0.045em;
+    font-variation-settings: "opsz" 96;
+  }
+
+  /* From lg the name shares the row with the vertical role gutter, so it gets
+     ten of twelve columns rather than the full width. */
+  @media (min-width: 1024px) {
+    .masthead {
+      --mw: 74;
+    }
+  }
+
+  /* One letter of the masthead, in its clipping box.
+     The box needs a taller line box than the masthead's 0.78 leading or it
+     crops the glyph at rest — a Didone's ascent and descent together exceed
+     an em, so tight leading pushes the outline outside the line box and
+     overflow:hidden shears it off. Set a comfortable 1.2 here and take the
+     difference back out with symmetric negative margins, which restores the
+     masthead's tight leading exactly: 1.2 - (2 x 0.21) = 0.78. */
+  .letter-box {
+    display: inline-block;
+    overflow: hidden;
+    line-height: 1.6;
+    margin-block: -0.41em;
+  }
+  /* The rising glyph itself. Its line-height is pinned to 1 so the nested
+     inline-block does not compound the box above and push the cap heights
+     back out through the top of the mask. */
+  .letter-rise {
+    line-height: 1;
+  }
+
+  .display-xl {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.5rem, 8.5vw, 6.5rem);
+    line-height: 0.85;
+    letter-spacing: -0.03em;
+    font-variation-settings: "opsz" 72;
+  }
+
+  .display-lg {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.9rem, 4.6vw, 3.4rem);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
+
+  /* Rotated gutter text. Only ever used in gutters, as in the reference. */
+  .vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+  .vertical-up {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  /* Newspaper body copy. */
+  .columns-news {
+    column-gap: 2rem;
+    column-rule: 1px solid var(--color-ink);
+    font-size: 0.95rem;
+    line-height: 1.62;
+    hyphens: auto;
+  }
+  .columns-news p {
+    margin-block-end: 0.9em;
+    text-align: justify;
+  }
+  /* Drop cap, set three lines deep like a leader column. */
+  .dropcap::first-letter {
+    font-family: var(--font-display);
+    font-weight: 700;
+    float: left;
+    font-size: 3.5em;
+    line-height: 0.78;
+    padding-inline-end: 0.08em;
+    padding-block-start: 0.04em;
+  }
+
+  /* Press photo: a ruled frame with a mono caption beneath, like a
+     wire-service image. */
+  .press-frame {
+    border: 1px solid var(--color-ink);
+    background: var(--color-paper-sub);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Editorial link. The underline grows from the left on hover, like a
+     ruled correction mark. */
+  .link-rule {
+    position: relative;
+    display: inline-block;
+  }
+  .link-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.1em;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .link-rule:hover::after,
+  .link-rule:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Edition switch labels. Both are in the markup; CSS shows whichever one
+     names the edition you are not currently reading. Keeping this in CSS is
+     what lets the toggle hold no React state — see ThemeToggle.tsx. */
+  .edition-night {
+    display: none;
+  }
+  [data-theme="night"] .edition-day {
+    display: none;
+  }
+  [data-theme="night"] .edition-night {
+    display: inline;
+  }
+
+  /* Halftone: a dot screen over photography, so images read as printed
+     rather than shot. */
+  .halftone::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0.3;
+    background-image: radial-gradient(
+      var(--color-ink) 0.6px,
+      transparent 0.7px
+    );
+    background-size: 3px 3px;
+  }
+  [data-theme="night"] .halftone::after {
+    mix-blend-mode: screen;
+    opacity: 0.16;
+  }
+}
+
+/* ===========================================================================
+   MOTION
+   All of it is CSS. Nothing on this page needs JavaScript to become visible:
+   the scroll reveals below are scoped to `.js` (set by the inline script in
+   the root layout), and the masthead animation runs at parse time.
+   =========================================================================== */
+
+@layer components {
+  /* Scroll reveal. The initial hidden state only exists when JavaScript is
+     running, so a failed bundle leaves a fully readable page rather than a
+     blank one. Reveal.tsx flips [data-revealed] when the element enters. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0s);
+  }
+  .js [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Masthead letters rising out of their clipped boxes. `both` fill matters:
+     it holds the start state before the delay elapses and the end state
+     afterwards, which is also what makes reduced motion land correctly. */
+  .letter-rise {
+    display: inline-block;
+    animation: letter-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes letter-rise {
+    from {
+      transform: translateY(110%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ===========================================================================
+   MOTION CONTRACT
+   Every animation in this codebase must survive the block below being
+   applied. Reduced motion leaves opacity only: no transforms, no hijacking.
+   =========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* It is already a newspaper, so let it actually print like one. */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+    background-image: none;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
