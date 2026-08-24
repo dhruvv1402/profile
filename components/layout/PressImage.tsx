@@ -12,6 +12,8 @@ type Props = {
   className?: string;
   /** Sizes hint for next/image. Defaults to a conservative full-width guess. */
   sizes?: string;
+  /** Thumbnail-sized frame: draw the placeholder without its caption text. */
+  compact?: boolean;
 };
 
 /**
@@ -34,6 +36,7 @@ export function PressImage({
   priority = false,
   className,
   sizes = "(max-width: 768px) 100vw, 50vw",
+  compact = false,
 }: Props) {
   const exists = publicFileExists(src);
 
@@ -53,7 +56,7 @@ export function PressImage({
             className="object-cover"
           />
         ) : (
-          <PlaceholderMat label={alt} />
+          <PlaceholderMat label={compact ? null : alt} />
         )}
       </div>
       {caption ? (
@@ -67,8 +70,12 @@ export function PressImage({
  * The stand-in: diagonal press-proof hatching with the intended subject
  * written across it, so a missing asset reads as "not yet supplied" rather
  * than as a bug.
+ *
+ * A null label leaves just the hatching. At thumbnail size a full alt string
+ * wraps to six lines and fills the frame, which looks like a fault rather than
+ * a placeholder — the hatching alone reads correctly.
  */
-function PlaceholderMat({ label }: { label: string }) {
+function PlaceholderMat({ label }: { label: string | null }) {
   return (
     <div
       className="absolute inset-0 flex items-end justify-start p-3"
@@ -77,9 +84,11 @@ function PlaceholderMat({ label }: { label: string }) {
           "repeating-linear-gradient(45deg, transparent 0 9px, color-mix(in srgb, var(--color-ink) 9%, transparent) 9px 10px)",
       }}
     >
-      <span className="label text-ink-mute max-w-full text-balance">
-        [ image pending ] {label}
-      </span>
+      {label ? (
+        <span className="label text-ink-mute max-w-full text-balance">
+          [ image pending ] {label}
+        </span>
+      ) : null}
     </div>
   );
 }

@@ -32,6 +32,15 @@ export const site = {
   tagline:
     "A curated selection of the best work of the last few years — built, broken, and rebuilt.",
 
+  /* The big exclamatory line bottom-left of the hero — the equivalent of the
+     reference's "INTERACTIVE ARTIST!". Two or three words, set very large, so
+     keep it short. It is the loudest thing on the page after your name. */
+  statement: "Open to internships!",
+
+  /* The gold sticker slapped on the portrait. Keep it to a few words; it is
+     set small and rotated. Set to null to remove the sticker. */
+  sticker: "Available now" as string | null,
+
   location: "Bengaluru, IN",
   timezone: "Asia/Kolkata",
 
