@@ -37,6 +37,12 @@ export const site = {
      saying what this page is. */
   deck: "A computer science undergraduate at Bennett University, specialising in artificial intelligence. This is the record of what I have built — research on brain networks and language models, and systems written from the protocol up to find out how they work.",
 
+  /* The standfirst on the /work index. Keep it true to what is actually on
+     the page — it previously promised a written account of every project,
+     which was not the case. */
+  workIntro:
+    "Research toolkits, protocol implementations written from scratch, and a couple of things that won something along the way.",
+
   /* The big exclamatory line bottom-left of the hero. Two or three words, set
      very large, so keep it short. */
   statement: "Open to internships!",
@@ -101,15 +107,15 @@ export const site = {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export const bio = [
-  "Somewhere between a coherence matrix that would not converge and a borrow checker that would not relent, the two halves of this practice met. I am a computer science undergraduate at Bennett University specialising in artificial intelligence, and most of what I do sits in the gap between a model that works and a system that can carry it.",
-  "The research runs in three directions at once. Computational neuroscience, where I work on functional connectivity analysis and brain network modelling from fMRI. Natural language, where I have built binary classification pipelines on BERT and RoBERTa for misinformation detection. And systems, where I am interested in compiler-level optimisation and in what it actually costs to make something fast rather than merely correct.",
-  "The rest is built to find out how things work. A BitTorrent client, because I wanted to understand the protocol rather than read about it. An asynchronous Redis client in Rust, for the same reason. A reconnaissance toolkit, because automation is more interesting than repetition. I lead research across the IEEE and ACM student chapters here, which mostly means helping other people get a first paper out of their head and onto a page.",
-];
+  "I am a Computer Science and Engineering undergraduate at Bennett University (The Times Group), specialising in artificial intelligence. My coursework runs from linear algebra and probability through machine learning and deep learning to operating systems and databases, and my work sits across all of it.",
+  "As an undergraduate researcher since 2024 I have worked on computational neuroscience — functional connectivity analysis, brain network modelling and signal synchronisation using fMRI and deep learning — under faculty guidance, alongside independent work on transformer-based fake news detection with BERT and RoBERTa, and on compiler-level optimisation in Rust.",
+  "I am Research Lead for the IEEE and ACM student chapters, where I lead student research initiatives in AI, machine learning and systems, and mentor juniors in research methodology and academic writing. Most recently I spent a summer at Publicis Resources administering enterprise AI systems in production.",
+]
 
-/* A single sentence, set large between rules.
-   CHECK THIS: replace it with something you have actually said. */
-export const pullQuote =
-  "Understand the layer below the one you are working on.";
+/* A single sentence, set large between rules, in the About column.
+   Null by default and the block is skipped — a "quote" I wrote for you would
+   not be a quote. Put a line of your own here when you have one. */
+export const pullQuote: string | null = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THE TICKER
@@ -135,46 +141,34 @@ export const ticker = [
 
 export const stack = [
   {
-    heading: "Languages",
-    items: ["Python", "Java", "C++", "Rust", "JavaScript", "SQL"],
+    heading: "Mathematics",
+    items: [
+      "Linear Algebra",
+      "Probability Theory",
+      "Statistics",
+      "Optimization",
+    ],
   },
   {
-    heading: "Machine learning",
+    heading: "ML / DL",
     items: [
       "PyTorch",
       "TensorFlow",
       "Scikit-learn",
+      "NumPy",
+      "Pandas",
       "OpenCV",
       "BERT",
       "Vision Transformers",
     ],
   },
   {
-    heading: "Data",
-    items: ["NumPy", "Pandas", "SQL", "fMRI pipelines"],
+    heading: "Languages",
+    items: ["Python", "Java", "C++", "Rust", "JavaScript", "SQL"],
   },
   {
-    heading: "Systems & tools",
+    heading: "Systems & Tools",
     items: ["Linux", "Git", "Docker", "Redis", "Tokio", "FastAPI", "LaTeX"],
-  },
-  {
-    heading: "Mathematics",
-    items: [
-      "Linear algebra",
-      "Probability theory",
-      "Statistics",
-      "Optimisation",
-    ],
-  },
-  {
-    heading: "Coursework",
-    items: [
-      "Machine learning",
-      "Deep learning",
-      "Data structures & algorithms",
-      "Operating systems",
-      "Databases",
-    ],
   },
 ];
 

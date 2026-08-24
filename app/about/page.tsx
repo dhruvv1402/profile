@@ -42,9 +42,11 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <blockquote className="display-lg mt-10 border-y border-ink py-6">
-            &ldquo;{pullQuote}&rdquo;
-          </blockquote>
+          {pullQuote ? (
+            <blockquote className="display-lg mt-10 border-y border-ink py-6">
+              &ldquo;{pullQuote}&rdquo;
+            </blockquote>
+          ) : null}
         </div>
 
         <aside className="col-span-12 lg:col-span-4">

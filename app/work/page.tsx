@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { projects } from "@/content/projects";
+import { projects, projectLabel } from "@/content/projects";
+import { site } from "@/content/site";
 import { publicFileExists } from "@/lib/assets";
 import { padIndex } from "@/lib/utils";
 import { SectionHead } from "@/components/layout/SectionHead";
@@ -37,9 +38,7 @@ export default function WorkIndexPage() {
         <p className="label text-accent">The index</p>
         <h1 className="display-xl mt-2">Selected work</h1>
         <p className="mt-6 max-w-2xl text-lg leading-snug text-ink-mute">
-          Every project below has a written account of what the problem was,
-          what I chose, and what it cost to find out. The failures are in here
-          too.
+          {site.workIntro}
         </p>
       </header>
 
@@ -60,7 +59,7 @@ export default function WorkIndexPage() {
               </span>
 
               <span className="display-lg col-span-10 md:col-span-5">
-                {project.title}
+                {projectLabel(project)}
               </span>
 
               <span className="label col-span-7 col-start-3 text-ink-mute md:col-span-4 md:col-start-auto">
@@ -80,13 +79,19 @@ export default function WorkIndexPage() {
                 {project.summary}
               </p>
 
-              <ul className="col-span-12 mt-2 flex flex-wrap gap-x-3 gap-y-1 md:col-span-8 md:col-start-2">
-                {project.stack.map((tech) => (
-                  <li key={tech} className="label text-ink-faint">
-                    {tech}
-                  </li>
-                ))}
-              </ul>
+              {project.stack.length > 0 ? (
+                <ul className="col-span-12 mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-1 md:col-span-8 md:col-start-2">
+                  {project.stack.map((tech, t) => (
+                    <li
+                      key={tech}
+                      className="label flex items-baseline gap-2 text-ink-faint"
+                    >
+                      {t > 0 ? <span aria-hidden="true">&middot;</span> : null}
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
             </Link>
           </Reveal>
         ))}

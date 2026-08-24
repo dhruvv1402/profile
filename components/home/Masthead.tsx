@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { site } from "@/content/site";
-import { featuredProjects, projects } from "@/content/projects";
+import { featuredProjects, projectLabel, projects } from "@/content/projects";
 import { formatDateline, padIndex } from "@/lib/utils";
 import { PressImage } from "@/components/layout/PressImage";
 import { Sticker } from "@/components/layout/Sticker";
@@ -98,7 +98,7 @@ export function Masthead() {
             href={`/work/${latest.slug}`}
             className="link-rule display-lg mt-1 block"
           >
-            {latest.title}
+            {projectLabel(latest)}
           </Link>
           <p className="label mt-2 text-ink-mute">
             {latest.discipline}
@@ -125,7 +125,7 @@ export function Masthead() {
                       </span>
                     </div>
                     <p className="label link-rule mt-2 block truncate">
-                      {project.title}
+                      {projectLabel(project)}
                     </p>
                   </Link>
                 </li>
@@ -165,7 +165,9 @@ export function Masthead() {
                       <span className="label text-accent">
                         {padIndex(i + 1)}
                       </span>
-                      <span className="link-rule text-sm">{project.title}</span>
+                      <span className="link-rule text-sm">
+                        {projectLabel(project)}
+                      </span>
                       <span className="label ml-auto text-ink-faint">
                         {project.year ?? ""}
                       </span>

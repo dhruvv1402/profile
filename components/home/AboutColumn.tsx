@@ -29,10 +29,14 @@ export function AboutColumn({ index }: { index: string }) {
         <Reveal className="col-span-12 lg:col-span-4" delay={0.1}>
           <div className="lg:rule-l lg:pl-6">
             <hr className="rule-thick mb-4" />
-            <blockquote className="display-lg">
-              &ldquo;{pullQuote}&rdquo;
-            </blockquote>
-            <hr className="rule mt-4" />
+            {pullQuote ? (
+              <>
+                <blockquote className="display-lg">
+                  &ldquo;{pullQuote}&rdquo;
+                </blockquote>
+                <hr className="rule mt-4" />
+              </>
+            ) : null}
 
             <dl className="mt-6 space-y-3">
               <div className="flex justify-between gap-4">

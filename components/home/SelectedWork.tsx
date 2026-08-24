@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { featuredProjects } from "@/content/projects";
+import { featuredProjects, projectLabel } from "@/content/projects";
 import { publicFileExists } from "@/lib/assets";
 import { padIndex } from "@/lib/utils";
 import { SectionHead } from "@/components/layout/SectionHead";
@@ -50,7 +50,7 @@ export function SelectedWork({ index }: { index: string }) {
               </span>
 
               <span className="display-lg col-span-10 md:col-span-6">
-                {project.title}
+                {projectLabel(project)}
               </span>
 
               <span className="label col-span-7 col-start-3 mt-2 text-ink-mute md:col-span-3 md:col-start-auto md:mt-0">

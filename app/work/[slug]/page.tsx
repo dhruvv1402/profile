@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import {
   getProject,
   getProjectNeighbours,
+  projectLabel,
   projects,
 } from "@/content/projects";
 import { padIndex } from "@/lib/utils";
@@ -54,6 +55,18 @@ export default async function CaseStudyPage({
 
   const { prev, next } = getProjectNeighbours(slug);
 
+  // Only the passages that actually have a body. `outcome` and `reflection`
+  // ship empty rather than fabricated, so most studies are partial for now.
+  const passages = (
+    [
+      ["The problem", project.study.problem],
+      ["The approach", project.study.approach],
+      ["The outcome", project.study.outcome],
+      ["In hindsight", project.study.reflection],
+    ] as const
+  ).filter(([, body]) => body.trim());
+  const hasStudy = passages.length > 0;
+
   return (
     <article className="shell pb-16 pt-10 md:pb-24">
       {/* ── Headline block ──────────────────────────────────────────────── */}
@@ -69,20 +82,37 @@ export default async function CaseStudyPage({
 
         <p className="mt-6 max-w-3xl text-xl leading-snug">{project.summary}</p>
 
-        <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-ink pt-6 md:grid-cols-4">
-          <div>
-            <dt className="label text-ink-mute">Role</dt>
-            <dd className="mt-1 text-sm">{project.role}</dd>
-          </div>
-          <div>
-            <dt className="label text-ink-mute">Context</dt>
-            <dd className="mt-1 text-sm">{project.context}</dd>
-          </div>
-          <div className="col-span-2">
-            <dt className="label text-ink-mute">Stack</dt>
-            <dd className="mt-1 text-sm">{project.stack.join(" · ")}</dd>
-          </div>
-        </dl>
+        {/* Only the facts the content file actually carries. The résumé does
+            not state a role or a team size for every project, and an empty
+            "Role —" row is worse than no row. */}
+        {project.award || project.role || project.context || project.stack.length > 0 ? (
+          <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-ink pt-6 md:grid-cols-4">
+            {project.award ? (
+              <div className="col-span-2">
+                <dt className="label text-ink-mute">Award</dt>
+                <dd className="mt-1 text-sm text-accent">{project.award}</dd>
+              </div>
+            ) : null}
+            {project.role ? (
+              <div>
+                <dt className="label text-ink-mute">Role</dt>
+                <dd className="mt-1 text-sm">{project.role}</dd>
+              </div>
+            ) : null}
+            {project.context ? (
+              <div>
+                <dt className="label text-ink-mute">Context</dt>
+                <dd className="mt-1 text-sm">{project.context}</dd>
+              </div>
+            ) : null}
+            {project.stack.length > 0 ? (
+              <div className="col-span-2">
+                <dt className="label text-ink-mute">Stack</dt>
+                <dd className="mt-1 text-sm">{project.stack.join(" · ")}</dd>
+              </div>
+            ) : null}
+          </dl>
+        ) : null}
 
         {project.links.length > 0 ? (
           <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 border-t border-ink pt-6">
@@ -117,20 +147,15 @@ export default async function CaseStudyPage({
       </Reveal>
 
       {/* ── The account ─────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-12 gap-x-8 gap-y-12 pt-16">
-        <div className="col-span-12 space-y-12 lg:col-span-8">
-          {/* Numbered by what survives the filter, so a case study still yet to
-              have its outcome written does not read 01, 02, 04. */}
-          {(
-            [
-              ["The problem", project.study.problem],
-              ["The approach", project.study.approach],
-              ["The outcome", project.study.outcome],
-              ["In hindsight", project.study.reflection],
-            ] as const
-          )
-            .filter(([, body]) => body.trim())
-            .map(([heading, body], i) => (
+      {/* The layout depends on whether a study has been written. With
+          passages, the account takes eight columns and the highlights sit in
+          a ruled rail beside it. Without them, that rail would be stranded
+          next to eight columns of nothing, so the highlights spread across
+          the full measure instead. */}
+      {hasStudy ? (
+        <div className="grid grid-cols-12 gap-x-8 gap-y-12 pt-16">
+          <div className="col-span-12 space-y-12 lg:col-span-8">
+            {passages.map(([heading, body], i) => (
               <Passage
                 key={heading}
                 index={padIndex(i + 1)}
@@ -138,28 +163,47 @@ export default async function CaseStudyPage({
                 body={body}
               />
             ))}
-        </div>
-
-        {/* Sidebar: the specifics an engineer skims for. */}
-        <Reveal className="col-span-12 lg:col-span-4" delay={0.1}>
-          <div className="lg:border-l lg:border-ink lg:pl-8">
-            <SectionHead kicker="Of note" />
-            <ul className="mt-4 space-y-4">
-              {project.highlights.map((highlight) => (
-                <li
-                  key={highlight}
-                  className="flex gap-3 border-b border-ink pb-4 text-sm leading-relaxed"
-                >
-                  <span className="text-accent" aria-hidden="true">
-                    &#9679;
-                  </span>
-                  {highlight}
-                </li>
-              ))}
-            </ul>
           </div>
+
+          {project.highlights.length > 0 ? (
+            <Reveal className="col-span-12 lg:col-span-4" delay={0.1}>
+              <div className="lg:border-l lg:border-ink lg:pl-8">
+                <SectionHead kicker="Of note" />
+                <ul className="mt-4 space-y-4">
+                  {project.highlights.map((highlight) => (
+                    <li
+                      key={highlight}
+                      className="flex gap-3 border-b border-ink pb-4 text-sm leading-relaxed"
+                    >
+                      <span className="text-accent" aria-hidden="true">
+                        &#9679;
+                      </span>
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          ) : null}
+        </div>
+      ) : project.highlights.length > 0 ? (
+        <Reveal className="pt-16">
+          <SectionHead kicker="Of note" />
+          <ul className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
+            {project.highlights.map((highlight) => (
+              <li
+                key={highlight}
+                className="flex gap-3 border-b border-ink py-4 text-sm leading-relaxed"
+              >
+                <span className="text-accent" aria-hidden="true">
+                  &#9679;
+                </span>
+                {highlight}
+              </li>
+            ))}
+          </ul>
         </Reveal>
-      </div>
+      ) : null}
 
       {/* ── Gallery, if the project has one ─────────────────────────────── */}
       {project.gallery && project.gallery.length > 0 ? (
@@ -193,7 +237,7 @@ export default async function CaseStudyPage({
                 Previous
               </span>
               <span className="display-lg link-rule mt-2 block">
-                {prev.title}
+                {projectLabel(prev)}
               </span>
             </Link>
           ) : (
@@ -209,7 +253,7 @@ export default async function CaseStudyPage({
                 </span>
               </span>
               <span className="display-lg link-rule mt-2 block">
-                {next.title}
+                {projectLabel(next)}
               </span>
             </Link>
           ) : null}
