@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 import { projects } from "@/content/projects";
-import { CONTENT_IS_REAL } from "@/content/flags";
+import { IS_INDEXABLE } from "@/content/flags";
 
 /** Every route is static and known at build time, so the sitemap is exhaustive. */
 export default function sitemap(): MetadataRoute.Sitemap {
   // An empty sitemap while the copy is placeholder, so nothing is volunteered
   // to a crawler that ignores robots.txt. See content/flags.ts.
-  if (!CONTENT_IS_REAL) return [];
+  if (!IS_INDEXABLE) return [];
 
   const now = new Date();
 

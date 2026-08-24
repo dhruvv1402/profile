@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { bio, chronicle, pullQuote, site, stack } from "@/content/site";
+import { bio, chronicle, honours, pullQuote, site, stack } from "@/content/site";
 import { resumeAvailable } from "@/lib/assets";
 import { PressImage } from "@/components/layout/PressImage";
 import { SectionHead } from "@/components/layout/SectionHead";
@@ -87,6 +87,42 @@ export default function AboutPage() {
           />
         </div>
       </section>
+
+      {/* ── Honours ──────────────────────────────────────────────────────── */}
+      {honours.length > 0 ? (
+        <section className="pt-20">
+          <SectionHead kicker="Honours" note={`${honours.length} awards`} />
+
+          <dl className="pt-2">
+            {honours.map((honour) => (
+              <Reveal
+                key={`${honour.event}-${honour.award}`}
+                className="grid grid-cols-12 gap-x-6 gap-y-2 border-b border-ink py-6"
+              >
+                <dt className="label col-span-12 text-accent md:col-span-3">
+                  {honour.award}
+                </dt>
+                <dd className="col-span-12 md:col-span-9">
+                  <h3 className="display-lg">{honour.event}</h3>
+                  <p className="mt-3 max-w-3xl text-sm leading-relaxed text-ink-mute">
+                    {honour.detail}
+                  </p>
+                  {honour.href ? (
+                    <a
+                      href={honour.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="label link-rule tap mt-3 inline-block"
+                    >
+                      Read more &#8599;
+                    </a>
+                  ) : null}
+                </dd>
+              </Reveal>
+            ))}
+          </dl>
+        </section>
+      ) : null}
 
       {/* ── The stack, spelled out ───────────────────────────────────────── */}
       <section className="pt-20">

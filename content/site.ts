@@ -1,10 +1,13 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- *  ★  EDIT THIS FILE.  ★
+ *  ★  THIS IS THE FILE TO EDIT.  ★
  * ─────────────────────────────────────────────────────────────────────────────
- *  Everything below is placeholder copy. Replace the strings with your own and
- *  the entire site updates: the masthead, the page titles, the OG image, the
- *  structured data, the footer. No content lives inside any component.
+ *  Everything here drives the site: the masthead, the page titles, the OG
+ *  image, the structured data, the footer. No copy lives inside any component.
+ *
+ *  Populated from the résumé of Dhruv Gupta. Where something could not be
+ *  verified from that document it has been left out rather than guessed at —
+ *  see the notes marked CHECK THIS.
  *
  *  Projects live next door in `content/projects.ts`.
  * ─────────────────────────────────────────────────────────────────────────────
@@ -12,90 +15,101 @@
 
 export const site = {
   /* ── Identity ─────────────────────────────────────────────────────────────
-     `name` is set as the masthead at up to 17rem. Anything longer than about
-     ten characters will need the masthead size clamp in globals.css nudged
-     down; check it at 375px before you commit to a long name. */
+     `name` is the masthead. It is sized from its own character count so any
+     length fills the measure, but check it at 375px before changing it. */
   name: "DHRUV",
-  fullName: "Dhruv Verma",
+  fullName: "Dhruv Gupta",
 
-  /* The rotated stack in the hero's right gutter. Keep each line short —
-     they are set vertically and read bottom-to-top, as in the reference.
-     Three or four lines is the sweet spot. */
+  /* The rotated stack in the hero's right gutter. Short lines only — they are
+     set vertically and read bottom-to-top. Three or four is the sweet spot. */
   roles: [
-    "Full-Stack Developer",
+    "Machine Learning & Systems",
     "Computer Science Undergraduate",
-    "Interface & Systems Tinkerer",
-    "Based in Bengaluru, IN",
+    "Undergraduate Researcher",
+    "Based in Greater Noida, IN",
   ],
 
   /* One line, used under the masthead and as the meta description fallback. */
   tagline:
-    "A curated selection of the best work of the last few years — built, broken, and rebuilt.",
+    "Research and systems work — brain networks, language models, and the layers underneath them.",
 
-  /* The big exclamatory line bottom-left of the hero — the equivalent of the
-     reference's "INTERACTIVE ARTIST!". Two or three words, set very large, so
-     keep it short. It is the loudest thing on the page after your name. */
+  /* The standfirst: the paragraph beside the portrait. Two or three sentences,
+     saying what this page is. */
+  deck: "A computer science undergraduate at Bennett University, specialising in artificial intelligence. This is the record of what I have built — research on brain networks and language models, and systems written from the protocol up to find out how they work.",
+
+  /* The big exclamatory line bottom-left of the hero. Two or three words, set
+     very large, so keep it short. */
   statement: "Open to internships!",
 
-  /* The gold sticker slapped on the portrait. Keep it to a few words; it is
-     set small and rotated. Set to null to remove the sticker. */
-  sticker: "Available now" as string | null,
+  /* The gold sticker on the portrait. A few words; it is small and rotated.
+     Set to null to remove it. */
+  sticker: "Open to work" as string | null,
 
-  location: "Bengaluru, IN",
+  location: "Greater Noida, IN",
   timezone: "Asia/Kolkata",
 
-  /* GitHub username, used to pull recently-updated public repositories into
-     the "Dispatches" section at build time. Set to null to hide that section
-     entirely. */
+  /* GitHub username. Pulls recently-pushed public repositories into the
+     "Dispatches" section at build time, revalidated hourly. null hides it. */
   github: "dhruvv1402" as string | null,
 
-  /* ── Contact ────────────────────────────────────────────────────────────── */
-  email: "hello@example.com",
+  /* ── Contact ──────────────────────────────────────────────────────────────
+     The phone number on the résumé is deliberately not published here. A
+     mailto on a public page already attracts enough spam; a mobile number in
+     the markup gets scraped and dialled. Keep it on the PDF, where you control
+     who receives it. */
+  email: "guptadhruv1402@gmail.com",
 
-  /* Shown as mono footnotes in the contact block and footer.
-     Delete any line you do not want; the layout adapts. */
   socials: [
-    { label: "GitHub", handle: "@dhruvv1402", href: "https://github.com/dhruvv1402" },
-    { label: "LinkedIn", handle: "in/your-handle", href: "https://linkedin.com/in/your-handle" },
-    { label: "X", handle: "@your-handle", href: "https://x.com/your-handle" },
-    { label: "Read.cv", handle: "your-handle", href: "https://read.cv/your-handle" },
+    {
+      label: "GitHub",
+      handle: "@dhruvv1402",
+      href: "https://github.com/dhruvv1402",
+    },
+    {
+      label: "LinkedIn",
+      handle: "in/dhruvv-gupta",
+      href: "https://www.linkedin.com/in/dhruvv-gupta/",
+    },
   ],
 
-  /* Drop the real file at public/resume.pdf and this link starts working. */
+  /* Export the résumé to PDF and drop it at public/resume.pdf. Until that file
+     exists the link hides itself rather than pointing at a 404. */
   resumeHref: "/resume.pdf",
 
   /* ── Deployment ───────────────────────────────────────────────────────────
-     Set this to the real domain before shipping. It is used for canonical
-     URLs, the sitemap, and absolute OG image paths. */
+     ★ SET THIS TO THE REAL DOMAIN. ★ Canonical URLs, the sitemap and the
+     absolute OG image path all read from it, and indexing stays switched off
+     while it still says example.com — see content/flags.ts. */
   url: "https://example.com",
 
-  /* ── Hero portrait ────────────────────────────────────────────────────────
-     Replace with your own image at public/portrait.jpg. Until then a ruled
-     placeholder mat is drawn in its place. */
+  /* ── Hero portrait ────────────────────────────────────────────────────── */
   portrait: {
-    src: "/portrait.jpg",
-    alt: "Portrait photograph",
-    caption: "Fig. 1 — The author, photographed at desk.",
+    src: "/portrait.png",
+    alt: "Dhruv Gupta",
+    caption: "Fig. 1 — The author.",
   },
 } as const;
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THE BIO
    Set as justified newspaper columns with a drop cap. Each string is one
-   paragraph. The first should open strongly — the drop cap lands on its
-   first letter.
+   paragraph; the drop cap lands on the first letter of the first.
+
+   CHECK THIS: written from the résumé, so the facts are yours but the voice is
+   not. Read it aloud — if it does not sound like you, rewrite it. This is the
+   part of the page people quote back at you in an interview.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export const bio = [
-  "Somewhere between a compiler error at two in the morning and a design file that would not stop nagging, the two halves of this practice met. I build software the way a printer sets a page: structure first, ornament last, and nothing on the sheet that has not earned its place.",
-  "Currently reading for a degree in Computer Science, which mostly means I spend my days on data structures and my nights on the things the syllabus does not cover — rendering pipelines, type systems, and an unreasonable interest in how interfaces feel under the hand.",
-  "The work below runs from small tools I built to scratch an itch to systems that ended up carrying real users. Each one has a written account of what the problem was, what I chose, and what I would do differently. The failures are documented too; they taught more.",
+  "Somewhere between a coherence matrix that would not converge and a borrow checker that would not relent, the two halves of this practice met. I am a computer science undergraduate at Bennett University specialising in artificial intelligence, and most of what I do sits in the gap between a model that works and a system that can carry it.",
+  "The research runs in three directions at once. Computational neuroscience, where I work on functional connectivity analysis and brain network modelling from fMRI. Natural language, where I have built binary classification pipelines on BERT and RoBERTa for misinformation detection. And systems, where I am interested in compiler-level optimisation and in what it actually costs to make something fast rather than merely correct.",
+  "The rest is built to find out how things work. A BitTorrent client, because I wanted to understand the protocol rather than read about it. An asynchronous Redis client in Rust, for the same reason. A reconnaissance toolkit, because automation is more interesting than repetition. I lead research across the IEEE and ACM student chapters here, which mostly means helping other people get a first paper out of their head and onto a page.",
 ];
 
-/* A single sentence, set large between rules. Pick the line you would want
-   quoted back to you. */
+/* A single sentence, set large between rules.
+   CHECK THIS: replace it with something you have actually said. */
 export const pullQuote =
-  "Build the thing that is hard to explain, then explain it well.";
+  "Understand the layer below the one you are working on.";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THE TICKER
@@ -104,51 +118,70 @@ export const pullQuote =
 
 export const ticker = [
   "Open to internships",
-  "Currently building",
-  "TypeScript",
+  "Machine learning",
   "Rust",
-  "Systems design",
-  "Available for freelance",
-  "Ships on weekends",
+  "PyTorch",
+  "Computational neuroscience",
+  "Systems programming",
+  "Currently building",
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   STACK & CAPABILITIES
+   SKILLS
    Rendered as newspaper classifieds: small ruled ad-blocks in a grid.
-   Recruiters and keyword scanners both read this, so be literal and honest.
+   Recruiters and keyword scanners both read this, so it is set as plain text.
+   Taken from the résumé.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export const stack = [
   {
     heading: "Languages",
-    items: ["TypeScript", "Python", "Rust", "Go", "SQL", "C++"],
+    items: ["Python", "Java", "C++", "Rust", "JavaScript", "SQL"],
   },
   {
-    heading: "Frontend",
-    items: ["React", "Next.js", "Tailwind CSS", "Framer Motion", "WebGL / Three.js"],
+    heading: "Machine learning",
+    items: [
+      "PyTorch",
+      "TensorFlow",
+      "Scikit-learn",
+      "OpenCV",
+      "BERT",
+      "Vision Transformers",
+    ],
   },
   {
-    heading: "Backend",
-    items: ["Node.js", "FastAPI", "PostgreSQL", "Redis", "tRPC", "GraphQL"],
+    heading: "Data",
+    items: ["NumPy", "Pandas", "SQL", "fMRI pipelines"],
   },
   {
-    heading: "Infrastructure",
-    items: ["Docker", "AWS", "Vercel", "GitHub Actions", "Terraform"],
+    heading: "Systems & tools",
+    items: ["Linux", "Git", "Docker", "Redis", "Tokio", "FastAPI", "LaTeX"],
   },
   {
-    heading: "Practice",
-    items: ["Testing", "Accessibility", "Design systems", "Technical writing"],
+    heading: "Mathematics",
+    items: [
+      "Linear algebra",
+      "Probability theory",
+      "Statistics",
+      "Optimisation",
+    ],
   },
   {
-    heading: "Learning",
-    items: ["Distributed systems", "Compilers", "Shader programming"],
+    heading: "Coursework",
+    items: [
+      "Machine learning",
+      "Deep learning",
+      "Data structures & algorithms",
+      "Operating systems",
+      "Databases",
+    ],
   },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
    THE CHRONICLE
    Education and experience, set dry and dated like a record of proceedings.
-   Newest first. `kind` picks the column it files under.
+   Newest first. `kind` picks the column it files under on the About page.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export type ChronicleEntry = {
@@ -161,50 +194,75 @@ export type ChronicleEntry = {
 
 export const chronicle: ChronicleEntry[] = [
   {
-    period: "2025 — Present",
-    title: "Software Engineering Intern",
-    org: "A Company You Have Heard Of",
+    period: "Jun 2026 — Aug 2026",
+    title: "Applications Admin Intern, AI/ML",
+    org: "Publicis Resources, Gurugram",
     kind: "experience",
     detail:
-      "Shipped three features to production on a codebase serving six figures of monthly traffic. Cut p95 latency on the search path by 40% by replacing an N+1 query with a single materialised view.",
+      "Supported and administered enterprise AI-enabled software in production, testing for system reliability. Ran Data Subject Access Request workflows and data validation for regulatory compliance, and documented system functionality and operational protocols for cross-functional MLOps teams.",
   },
   {
-    period: "2023 — 2027",
-    title: "B.Tech, Computer Science",
-    org: "Your University",
+    period: "2025 — 2026",
+    title: "Research Lead, IEEE & ACM Student Chapters",
+    org: "Bennett University",
+    kind: "experience",
+    detail:
+      "Leading student research initiatives across both chapters in AI, machine learning and systems. Mentoring juniors in research methodology and academic writing in LaTeX.",
+  },
+  {
+    period: "2024 — Present",
+    title: "Undergraduate Researcher",
+    org: "Bennett University",
+    kind: "experience",
+    detail:
+      "Faculty-guided research on functional connectivity analysis, brain network modelling and signal synchronisation from fMRI. Independent work on transformer-based misinformation detection and on compiler-level optimisation in Rust.",
+  },
+  {
+    period: "2024 — 2028",
+    title: "B.Tech, Computer Science & Engineering",
+    org: "Bennett University (The Times Group), Greater Noida",
     kind: "education",
     detail:
-      "Coursework in data structures, operating systems, computer networks, databases, and machine learning. Teaching assistant for the first-year programming course.",
+      "Specialisation in artificial intelligence. CGPA 8.92. Coursework in linear algebra, probability and statistics, machine learning, deep learning, data structures and algorithms, databases and operating systems.",
+  },
+];
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HONOURS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+export type Honour = {
+  award: string;
+  event: string;
+  detail: string;
+  href?: string;
+};
+
+export const honours: Honour[] = [
+  {
+    award: "Special Jury Award",
+    event: "NST GenAI Hackathon",
+    detail:
+      "Wraith OS — RetroCloud, a lightweight cloud file management prototype built with FastAPI, Python and shell tooling.",
+    href: "https://www.linkedin.com/posts/dhruvv-gupta_wraithflash-activity-7318287884191490048-Bdeu",
   },
   {
-    period: "2024 — 2025",
-    title: "Open Source Contributor",
-    org: "Various projects",
-    kind: "experience",
+    award: "2nd Runner-Up",
+    event: "Project Showcase 2025 — Bennett University × Times of India",
     detail:
-      "Merged patches to developer tooling used daily by other engineers. Mostly bug fixes and documentation; occasionally something larger.",
-  },
-  {
-    period: "2024",
-    title: "Finalist, National Hackathon",
-    org: "Some Reputable Event",
-    kind: "experience",
-    detail:
-      "Built and demoed a working prototype in 36 hours against 400 competing teams. Placed in the top five.",
+      "TerraVit, an AI-powered climate intelligence system using vision transformers on satellite imagery.",
+    href: "https://www.linkedin.com/posts/dhruvv-gupta_globalaisummit-acm-climateai-activity-7397605909637799936-Zx1p",
   },
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
    NOTES
-   Short write-ups: things you worked out, got wrong, or want to remember.
+   Short write-ups. `href` can point anywhere — a future /notes route, a gist,
+   a repository README.
 
-   Empty this array and the whole section disappears from the home page — no
-   "coming soon", no dead link. That is deliberate: an empty writing section
-   advertises that you stopped writing.
-
-   Two placeholders ship here so you can see the treatment. Replace them with
-   real posts, or delete them. `href` can point anywhere — your own /notes
-   route later, a dev.to post, a gist, a GitHub README.
+   Empty the array and the section disappears from the home page. That is
+   deliberate: a writing section with nothing in it advertises that you stopped
+   writing. It is empty because there was nothing on the résumé to put here.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 export type Note = {
@@ -215,22 +273,7 @@ export type Note = {
   summary: string;
 };
 
-export const notes: Note[] = [
-  {
-    title: "Why my WASM solver was slower than the JavaScript one",
-    date: "2026-04-12",
-    href: "https://example.com/notes/wasm-slower",
-    summary:
-      "I assumed the bottleneck was compute. It was the boundary — every call was copying the whole constraint set across. A note on measuring before porting.",
-  },
-  {
-    title: "Reading a paper properly, and why tooling did not help",
-    date: "2026-02-03",
-    href: "https://example.com/notes/reading-papers",
-    summary:
-      "Three months of building a reader taught me more about how I read than any of the features I shipped into it.",
-  },
-];
+export const notes: Note[] = [];
 
 /* ═══════════════════════════════════════════════════════════════════════════
    NAVIGATION

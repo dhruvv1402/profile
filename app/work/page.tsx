@@ -70,7 +70,7 @@ export default function WorkIndexPage() {
               {/* Three columns, not one. At 375px a single column is ~29px and
                   the year plus its arrow overflow the page. */}
               <span className="label col-span-3 text-right md:col-span-2">
-                {project.year}
+                {project.year ?? ""}
                 <span className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-1">
                   &rarr;
                 </span>

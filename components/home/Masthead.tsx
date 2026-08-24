@@ -101,7 +101,8 @@ export function Masthead() {
             {latest.title}
           </Link>
           <p className="label mt-2 text-ink-mute">
-            {latest.discipline} &mdash; {latest.year}
+            {latest.discipline}
+            {latest.year ? ` — ${latest.year}` : ""}
           </p>
 
           {/* Thumbnails, each with a red index badge, as in the reference. */}
@@ -142,11 +143,7 @@ export function Masthead() {
         <div className="col-span-12 flex flex-col justify-between sm:col-span-6 lg:col-span-5">
           <div>
             <hr className="rule mb-3 lg:hidden" />
-            <p className="text-lg leading-snug">
-              Currently an undergraduate, permanently a builder. This is the
-              record of what I have made, why I made it that way, and what it
-              cost to find out.
-            </p>
+            <p className="text-lg leading-snug">{site.deck}</p>
 
             {/* A contents block, the way a front page indexes its inside
                 pages. It also gives this column something to hold. */}
@@ -170,7 +167,7 @@ export function Masthead() {
                       </span>
                       <span className="link-rule text-sm">{project.title}</span>
                       <span className="label ml-auto text-ink-faint">
-                        {project.year}
+                        {project.year ?? ""}
                       </span>
                     </Link>
                   </li>

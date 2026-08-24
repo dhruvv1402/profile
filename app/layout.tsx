@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { fontVariables } from "@/lib/fonts";
 import { site } from "@/content/site";
-import { CONTENT_IS_REAL } from "@/content/flags";
+import { IS_INDEXABLE } from "@/content/flags";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   // Inherited by every route. Placeholder copy must not be indexed — see
   // content/flags.ts.
-  robots: CONTENT_IS_REAL
+  robots: IS_INDEXABLE
     ? { index: true, follow: true }
     : { index: false, follow: false },
 };

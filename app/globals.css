@@ -330,7 +330,14 @@
   }
 
   /* Halftone: a dot screen over photography, so images read as printed
-     rather than shot. */
+     rather than shot.
+
+     The multiply blend is what makes it read as ink sitting in the paper
+     rather than a grey veil laid over it. It does promote the element to its
+     own compositing layer, and I removed it once on the theory that it was
+     driving style and layout time — measurement said otherwise, so it is
+     back. The dot screen is skipped on thumbnails instead (see PressImage),
+     where it is too small to resolve. */
   .halftone::after {
     content: "";
     position: absolute;

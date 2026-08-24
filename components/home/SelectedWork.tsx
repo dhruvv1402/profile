@@ -58,7 +58,7 @@ export function SelectedWork({ index }: { index: string }) {
               </span>
 
               <span className="label col-span-3 mt-2 text-right md:col-span-2 md:mt-0">
-                {project.year}
+                {project.year ?? ""}
                 <span className="ml-3 inline-block transition-transform duration-300 group-hover:translate-x-1">
                   &rarr;
                 </span>

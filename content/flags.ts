@@ -1,19 +1,29 @@
+import { site } from "./site";
+
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- *  ★  FLIP THIS WHEN YOUR REAL CONTENT IS IN.  ★
+ *  Whether this site is ready to be indexed by search engines.
  * ─────────────────────────────────────────────────────────────────────────────
  *
- *  The site ships with placeholder copy: invented projects, an invented
- *  internship, an invented hackathon placing, and invented numbers. That is
- *  fine on a URL you are sharing with a few people. It is not fine in Google,
- *  where a fabricated résumé can be cached and quoted back at you long after
- *  the page itself has changed.
+ *  Two conditions, both of which have to hold.
  *
- *  So while this is false, the whole site is marked noindex/nofollow and
- *  robots.txt disallows everything.
+ *  CONTENT_IS_REAL — the copy describes real work. This is now true: the site
+ *  carries Dhruv Gupta's actual projects, education and experience. Nothing is
+ *  invented; the case-study outcomes are empty rather than fabricated.
  *
- *  Set it to `true` once `content/site.ts` and `content/projects.ts` describe
- *  real work. That single change re-enables indexing everywhere — the robots
- *  file, the per-page metadata, and the sitemap.
+ *  A real domain — `site.url` still says example.com until it is set. Indexing
+ *  a site whose canonical URLs and Open Graph images all point at example.com
+ *  is worse than not being indexed at all: search engines record the canonical,
+ *  not the address they found the page on. So the gate closes on that too, and
+ *  opens by itself the moment the real domain is filled in.
+ *
+ *  When this is false the whole site is noindex/nofollow, robots.txt disallows
+ *  everything, and the sitemap is empty.
  */
-export const CONTENT_IS_REAL = false;
+
+const CONTENT_IS_REAL = true;
+
+const HAS_REAL_DOMAIN =
+  !site.url.includes("example.com") && !site.url.includes("localhost");
+
+export const IS_INDEXABLE = CONTENT_IS_REAL && HAS_REAL_DOMAIN;

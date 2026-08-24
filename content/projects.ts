@@ -1,18 +1,25 @@
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- *  ★  EDIT THIS FILE.  ★
+ *  ★  THIS IS THE FILE TO EDIT.  ★
  * ─────────────────────────────────────────────────────────────────────────────
- *  Five placeholder projects, shaped the way a real case study should be.
+ *  Your real projects, taken from the résumé.
  *
- *  The single highest-value thing on this whole site is a well-written case
- *  study. A screenshot says you can use a framework; `problem -> approach ->
- *  outcome` says you can think. Keep the structure and replace the words.
+ *  READ THIS BEFORE PUBLISHING:
  *
- *  Rules of thumb:
- *    - `outcome` should contain a number wherever you honestly have one.
- *    - Never link a demo that is down. A dead link is worse than no link.
- *    - `featured: true` promotes a project to the home page. Keep it to 3–4.
- *    - Order here is the order shown. Put your strongest work first.
+ *  `problem` and `approach` are written from your own résumé descriptions, so
+ *  the facts are yours — but they are necessarily general, because a one-line
+ *  résumé entry does not say what went wrong or what you chose.
+ *
+ *  `outcome` and `reflection` are EMPTY on purpose. Nothing invented a number,
+ *  a benchmark, or a user count on your behalf. A passage with an empty body
+ *  is skipped when the page renders, so the site is complete and honest as it
+ *  stands — it is simply quieter than it could be.
+ *
+ *  Filling those two fields in is the highest-value hour you can spend on this
+ *  site. A screenshot says you can use a framework; "here is what it cost me to
+ *  find out" says you can think. Put a real number in `outcome` wherever you
+ *  have one, and say something true in `reflection` even if it is unflattering
+ *  — being able to name what you would change reads as seniority.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -25,224 +32,279 @@ export type Project = {
   /** URL segment: /work/<slug>. Lowercase, hyphenated, never changed once shared. */
   slug: string;
   title: string;
-  /** Year or range, shown in the index table. */
-  year: string;
+  /** Year or range. Optional — omitted rather than guessed where unknown. */
+  year?: string;
   /** Two or three words. Shown beside the title in the work list. */
   discipline: string;
-  /** One sentence. This is the hook in the index and the meta description. */
+  /** One sentence. The hook in the index and the meta description. */
   summary: string;
-  /** Promote to the home page. */
+  /** Promote to the home page. Keep this to three or four. */
   featured: boolean;
   /** Technologies, most significant first. */
   stack: string[];
-  /** Your part in it. Say "solo" if it was. */
+  /** Your part in it. */
   role: string;
-  /** Team size / context, e.g. "Solo project" or "Team of 4, 36-hour hackathon". */
+  /** Team size and setting. */
   context: string;
-  /** The case study proper. */
   study: {
     problem: string;
     approach: string;
+    /** ★ Fill this in. Empty passages are skipped, not rendered blank. */
     outcome: string;
-    /** What you would do differently. Honesty here reads as seniority. */
+    /** ★ Fill this in. What you would do differently. */
     reflection: string;
   };
-  /** Two to four bullet points of specifics an engineer would care about. */
+  /** Specifics an engineer skims for. */
   highlights: string[];
   links: ProjectLink[];
-  /** Drop real screenshots in public/work/. Missing files fall back to a ruled mat. */
+  /** Drop screenshots in public/work/. Missing files fall back to a ruled mat. */
   cover: { src: string; alt: string; caption: string };
   gallery?: { src: string; alt: string; caption: string }[];
 };
 
 export const projects: Project[] = [
   {
-    slug: "meridian-scheduler",
-    title: "Meridian",
-    year: "2026",
-    discipline: "Full-stack / Systems",
+    slug: "fmri-functional-connectivity",
+    title: "Connectome",
+    discipline: "Computational neuroscience",
     summary:
-      "A timetable solver that turns a semester of conflicting constraints into a schedule in under two seconds.",
+      "A Python toolkit for analysing functional connectivity in fMRI data — coherence metrics, network analysis, statistical testing and visualisation in one framework.",
     featured: true,
-    stack: ["TypeScript", "Next.js", "PostgreSQL", "Rust (WASM)", "Redis"],
-    role: "Solo — design, solver, interface",
-    context: "Solo project, built over one semester",
+    stack: ["Python", "NumPy", "SciPy", "NetworkX", "Matplotlib", "fMRI pipelines"],
+    role: "Author",
+    context: "Faculty-guided research, Bennett University",
     study: {
       problem:
-        "Course registration at my university is a lottery dressed up as a form. Students hold six browser tabs open and hand-check for clashes, and every semester a few hundred people end up in a timetable they cannot actually attend. The scheduling constraints are real but nobody had ever written them down in one place.",
+        "Functional connectivity analysis is spread across a dozen tools that do not agree on file formats, assumptions, or what a significance test means in this context. Getting from a preprocessed scan to a defensible statement about how two regions communicate means stitching several of them together by hand, and the stitching is where errors hide.",
       approach:
-        "I modelled it as a constraint satisfaction problem and wrote the solver in Rust, compiled to WebAssembly so it runs entirely in the browser — no server round-trip, no student data leaving the machine. The interface is a Next.js app that streams partial solutions as the solver finds them, so the page fills in progressively instead of blocking on a spinner. Redis caches the parsed course catalogue, which only changes twice a year.",
-      outcome:
-        "Solves a full six-course semester in under 2 seconds on a mid-range laptop, against roughly 40 seconds for the naive backtracking version I started with. Around 300 students used it during the last registration window. Zero server cost, because the hard part runs client-side.",
-      reflection:
-        "I reached for WASM before I had proven the JavaScript version was too slow — it turned out to be, but I got lucky. I should have profiled first. The constraint DSL is also more general than anyone needed; a simpler model would have shipped a month earlier.",
+        "A single Python framework covering the path end to end: coherence metrics between region time series, graph-theoretic analysis of the resulting networks, statistical testing over those measures, and visualisation. Keeping it in one toolkit means the assumptions are stated once and the intermediate representations do not have to survive a round trip through a file format.",
+      outcome: "",
+      reflection: "",
     },
     highlights: [
-      "Rust solver compiled to WASM, running fully client-side",
-      "Streaming partial results via a Web Worker, so the UI never blocks",
-      "Constraint model covers prerequisites, capacity, and time clashes",
-      "Zero backend cost — static hosting plus a cached catalogue",
+      "Coherence-based connectivity metrics between region time series",
+      "Graph-theoretic network analysis over the resulting connectome",
+      "Statistical testing built into the pipeline rather than bolted on",
+      "Visualisation of connectivity matrices and network structure",
     ],
     links: [
-      { label: "Live demo", href: "https://example.com/meridian" },
-      { label: "Source", href: "https://github.com/dhruvv1402" },
+      {
+        label: "Source",
+        href: "https://github.com/dhruvv1402/advanced-fmri-functional-connectivity-analysis-framework",
+      },
     ],
     cover: {
-      src: "/work/meridian.jpg",
-      alt: "Screenshot of the Meridian timetable interface",
-      caption: "Fig. 1 — The solver, mid-run, streaming partial schedules.",
+      src: "/work/connectome.jpg",
+      alt: "Functional connectivity matrix and brain network visualisation",
+      caption: "Fig. 1 — Connectivity matrix and derived network.",
     },
   },
 
   {
-    slug: "cinder-observability",
-    title: "Cinder",
+    slug: "terravit",
+    title: "TerraVit",
     year: "2025",
-    discipline: "Backend / Infrastructure",
+    discipline: "Vision / Climate AI",
     summary:
-      "A self-hosted log pipeline that answers the question every incident starts with: what changed?",
+      "A climate intelligence system reading satellite imagery with vision transformers. Second runner-up at Project Showcase 2025.",
     featured: true,
-    stack: ["Go", "ClickHouse", "Docker", "Grafana", "Terraform"],
-    role: "Backend and infrastructure",
-    context: "Team of 3, internship project",
+    stack: ["Python", "PyTorch", "Vision Transformers", "Satellite imagery"],
+    role: "Team project",
+    context: "Project Showcase 2025 — Bennett University × Times of India",
     study: {
       problem:
-        "The team's logs lived in four places and none of them talked to each other. Debugging a production incident meant grepping three services by hand and guessing at timestamps. The hosted alternatives were quoted at more than the team's entire infrastructure budget.",
+        "Climate signal is visible from orbit long before it is visible in a report, but satellite imagery arrives faster than anyone can look at it. The useful question is not whether the data exists — it is whether a model can be pointed at it and asked something specific.",
       approach:
-        "I built an ingestion service in Go that normalises log lines from every service into one schema, writes them into ClickHouse in batches, and exposes a query layer that Grafana can read directly. Batching was the whole game — writing rows individually collapsed under load, so the writer buffers for 200ms or 5,000 rows, whichever comes first. The whole stack is defined in Terraform and comes up with a single command.",
-      outcome:
-        "Ingests roughly 12,000 log lines per second on a single modest instance. Median incident triage time dropped from about 20 minutes to under 5. Running cost is around a twentieth of the hosted quote.",
-      reflection:
-        "I underestimated retention. The first version kept everything forever and filled the disk in three weeks; adding tiered retention afterwards was far more painful than designing for it would have been.",
+        "Vision transformers applied to satellite imagery, chosen over convolutional architectures because attention handles the long-range spatial structure that matters at this scale: a pattern spanning a whole tile rather than a local texture.",
+      outcome: "",
+      reflection: "",
     },
     highlights: [
-      "Batched writer sustaining ~12k lines/sec on one instance",
-      "Single normalised log schema across four heterogeneous services",
-      "Whole stack reproducible from Terraform in one command",
-      "Tiered retention: hot 7 days, cold 90 days, then dropped",
+      "Vision transformer architecture over satellite imagery tiles",
+      "Second runner-up, Project Showcase 2025",
     ],
     links: [
-      { label: "Write-up", href: "https://example.com/cinder" },
-      { label: "Source", href: "https://github.com/dhruvv1402" },
+      {
+        label: "Write-up",
+        href: "https://www.linkedin.com/posts/dhruvv-gupta_globalaisummit-acm-climateai-activity-7397605909637799936-Zx1p",
+      },
     ],
     cover: {
-      src: "/work/cinder.jpg",
-      alt: "Grafana dashboard showing log ingestion metrics",
-      caption: "Fig. 2 — Ingestion throughput during a load test.",
+      src: "/work/terravit.jpg",
+      alt: "TerraVit interface showing satellite imagery analysis",
+      caption: "Fig. 2 — Satellite tile under analysis.",
     },
   },
 
   {
-    slug: "paper-reader",
-    title: "Paper",
-    year: "2025",
-    discipline: "Interface / ML",
+    slug: "bittorrent-client",
+    title: "BitTorrent",
+    discipline: "Networking / Systems",
     summary:
-      "A reading tool for academic papers that keeps the citation you are reading about on screen beside you.",
+      "A BitTorrent client written from the protocol up in Python — peer communication, piece management and concurrent downloading over raw sockets.",
     featured: true,
-    stack: ["React", "Python", "FastAPI", "PostgreSQL", "pgvector"],
-    role: "Solo — full stack",
-    context: "Solo project",
-    study: {
-      problem:
-        "Reading a paper properly means chasing its references, and chasing a reference means losing your place. I wanted the cited claim to appear next to the citation, without leaving the page.",
-      approach:
-        "The backend parses a PDF into a structured document, resolves each citation against an open metadata API, and embeds every abstract into pgvector. When you hover a citation, the reader pulls the referenced abstract and the specific passage most similar to the sentence doing the citing — so you see the relevant claim, not just the paper's title. The frontend is a two-pane React reader with keyboard navigation throughout.",
-      outcome:
-        "Resolves around 85% of citations correctly on the sample of 200 papers I tested against. Retrieval returns in about 120ms warm. I use it for coursework every week, which is the honest measure of whether a tool works.",
-      reflection:
-        "PDF parsing is a swamp and I spent nearly half the project in it. If I started again I would build on an existing extraction library rather than writing my own heuristics for column detection.",
-    },
-    highlights: [
-      "Citation-aware retrieval: matches the passage, not just the paper",
-      "pgvector similarity search returning in ~120ms warm",
-      "Two-pane reader, fully keyboard navigable",
-      "Handles two-column PDF layouts, which is harder than it sounds",
-    ],
-    links: [
-      { label: "Live demo", href: "https://example.com/paper" },
-      { label: "Source", href: "https://github.com/dhruvv1402" },
-    ],
-    cover: {
-      src: "/work/paper.jpg",
-      alt: "Two-pane paper reader showing a citation preview",
-      caption: "Fig. 3 — A citation previewed in the right-hand pane.",
-    },
-  },
-
-  {
-    slug: "loom-design-system",
-    title: "Loom",
-    year: "2024",
-    discipline: "Design systems",
-    summary:
-      "A component library and token pipeline that got four student projects looking like they came from the same team.",
-    featured: false,
-    stack: ["TypeScript", "React", "Tailwind CSS", "Storybook", "Style Dictionary"],
-    role: "Maintainer",
-    context: "Team of 5, university society",
-    study: {
-      problem:
-        "Our society shipped four small web projects a year and every one of them reinvented buttons, forms, and colour. Nothing was accessible by default, and each new contributor started from a blank file.",
-      approach:
-        "I defined the design tokens once in JSON and generated the CSS variables, the Tailwind theme, and the Figma variables from the same source via Style Dictionary — so a colour change lands in code and design at once. On top of that sits a component library documented in Storybook, with accessibility checks running in CI on every pull request.",
-      outcome:
-        "Adopted by all four projects. Axe reports zero critical violations across the library. New contributors now ship a working, accessible page on day one instead of week two.",
-      reflection:
-        "I documented the components thoroughly and the tokens barely at all, so people used the components correctly and the colours however they liked. The documentation people actually need is the boring foundational layer.",
-    },
-    highlights: [
-      "One token source generating CSS, Tailwind, and Figma variables",
-      "Zero critical axe violations, enforced in CI",
-      "26 components documented in Storybook",
-      "Adopted across four independent projects",
-    ],
-    links: [
-      { label: "Storybook", href: "https://example.com/loom" },
-      { label: "Source", href: "https://github.com/dhruvv1402" },
-    ],
-    cover: {
-      src: "/work/loom.jpg",
-      alt: "Storybook view of the Loom component library",
-      caption: "Fig. 4 — The component library in Storybook.",
-    },
-  },
-
-  {
-    slug: "tidal-visualiser",
-    title: "Tidal",
-    year: "2024",
-    discipline: "Graphics / WebGL",
-    summary:
-      "An audio-reactive fluid simulation running at 60fps in the browser, written to learn what a shader actually is.",
-    featured: false,
-    stack: ["TypeScript", "Three.js", "GLSL", "Web Audio API"],
+    stack: ["Python", "asyncio", "Sockets", "BitTorrent protocol"],
     role: "Solo",
-    context: "Solo project, learning exercise",
+    context: "Independent project",
     study: {
       problem:
-        "I could use a graphics library but I could not have told you what the GPU was doing underneath. I wanted a project where not understanding the hardware would actually hurt.",
+        "BitTorrent is one of those protocols everyone has used and almost nobody has read. I wanted the version of the understanding you only get from having to implement the handshake yourself and watch it fail.",
       approach:
-        "A Navier-Stokes fluid solver implemented as a chain of GLSL fragment shaders, running on ping-pong framebuffers so each step reads the previous frame's texture. The Web Audio API's analyser node feeds frequency bands into the simulation as force injections, so bass moves the fluid differently from treble.",
-      outcome:
-        "Holds 60fps at 1080p on integrated graphics. More to the point, I now understand framebuffers, texture precision, and why everything on a GPU is a trade against bandwidth.",
-      reflection:
-        "The first version ran at 12fps because I was reading pixels back to the CPU every frame to normalise them. Learning to keep the whole loop on the GPU was the actual lesson of the project.",
+        "Built lightweight and asynchronous, on raw sockets and asynchronous I/O rather than a networking library. Core protocol functionality implemented directly: peer communication, piece management, and concurrent downloading of pieces from multiple peers at once.",
+      outcome: "",
+      reflection: "",
     },
     highlights: [
-      "GLSL fluid solver on ping-pong framebuffers, fully GPU-resident",
-      "60fps at 1080p on integrated graphics",
-      "Frequency-band audio analysis driving force injection",
-      "No rendering library beyond Three.js for context setup",
+      "Core protocol implemented directly — peer handshake and messaging",
+      "Piece management across concurrent peer connections",
+      "Asynchronous I/O over raw sockets, no networking library",
     ],
     links: [
-      { label: "Live demo", href: "https://example.com/tidal" },
-      { label: "Source", href: "https://github.com/dhruvv1402" },
+      {
+        label: "Source",
+        href: "https://github.com/dhruvv1402/BitTorrent-Client-Python",
+      },
     ],
     cover: {
-      src: "/work/tidal.jpg",
-      alt: "Still frame from the Tidal audio-reactive fluid simulation",
-      caption: "Fig. 5 — The simulation responding to a bass transient.",
+      src: "/work/bittorrent.jpg",
+      alt: "BitTorrent client downloading pieces from multiple peers",
+      caption: "Fig. 3 — Concurrent piece download in progress.",
+    },
+  },
+
+  {
+    slug: "redis-client-rust",
+    title: "Redis in Rust",
+    discipline: "Systems / Concurrency",
+    summary:
+      "A minimal asynchronous Redis client built on Tokio, written for performance and concurrency rather than feature coverage.",
+    featured: false,
+    stack: ["Rust", "Tokio", "Redis protocol"],
+    role: "Solo",
+    context: "Independent project",
+    study: {
+      problem:
+        "Redis clients are easy to use and hard to see inside. Writing one in Rust puts you in contact with the parts that are usually hidden: the wire protocol, the connection lifecycle, and what asynchrony actually costs when the borrow checker is watching.",
+      approach:
+        "Deliberately minimal, built on Tokio's asynchronous runtime with concurrency as the design constraint rather than an afterthought. The scope is narrow on purpose — enough of the protocol to be genuinely useful, not enough to obscure what the code is doing.",
+      outcome: "",
+      reflection: "",
+    },
+    highlights: [
+      "Asynchronous throughout, built on the Tokio runtime",
+      "Redis wire protocol implemented directly",
+      "Minimal surface area, chosen for legibility over coverage",
+    ],
+    links: [
+      {
+        label: "Source",
+        href: "https://github.com/dhruvv1402/Redis-Client-RUST",
+      },
+    ],
+    cover: {
+      src: "/work/redis.jpg",
+      alt: "Redis client running against a local server",
+      caption: "Fig. 4 — Client under load.",
+    },
+  },
+
+  {
+    slug: "wraith-os",
+    title: "Wraith OS",
+    discipline: "Cloud / Systems",
+    summary:
+      "RetroCloud, a lightweight cloud file management prototype. Special Jury Award at the NST GenAI Hackathon.",
+    featured: false,
+    stack: ["Python", "FastAPI", "Shell", "Cloud systems"],
+    role: "Team project",
+    context: "NST GenAI Hackathon",
+    study: {
+      problem:
+        "Cloud file management arrives as a heavy, opinionated product when what is often wanted is something small enough to reason about and quick enough to build inside a hackathon's clock.",
+      approach:
+        "A deliberately lightweight prototype: FastAPI for the surface, Python and shell tooling underneath, aimed at proving the interaction rather than shipping a platform.",
+      outcome: "",
+      reflection: "",
+    },
+    highlights: [
+      "FastAPI service over Python and shell tooling",
+      "Special Jury Award, NST GenAI Hackathon",
+    ],
+    links: [
+      {
+        label: "Write-up",
+        href: "https://www.linkedin.com/posts/dhruvv-gupta_wraithflash-activity-7318287884191490048-Bdeu",
+      },
+    ],
+    cover: {
+      src: "/work/wraith.jpg",
+      alt: "Wraith OS RetroCloud interface",
+      caption: "Fig. 5 — The RetroCloud prototype.",
+    },
+  },
+
+  {
+    slug: "bug-bounty-toolkit",
+    title: "Recon",
+    discipline: "Security / Automation",
+    summary:
+      "An automated reconnaissance framework tying subdomain enumeration, vulnerability detection and OSINT into a single workflow.",
+    featured: false,
+    stack: ["Python", "Shell", "OSINT tooling"],
+    role: "Solo",
+    context: "Independent project",
+    study: {
+      problem:
+        "The reconnaissance phase of a bug bounty is mostly the same commands in the same order against a different target, and running them by hand is both slow and easy to do inconsistently — which is the worse of the two problems, because inconsistency is invisible.",
+      approach:
+        "One framework wrapping the stages that were previously separate tools: subdomain enumeration, vulnerability detection, and OSINT gathering, integrated so the output of each feeds the next rather than a directory of text files.",
+      outcome: "",
+      reflection: "",
+    },
+    highlights: [
+      "Subdomain enumeration, vulnerability detection and OSINT in one pass",
+      "Stages chained so each feeds the next automatically",
+    ],
+    links: [
+      {
+        label: "Source",
+        href: "https://github.com/dhruvv1402/Bug-Bounty-Hunter",
+      },
+    ],
+    cover: {
+      src: "/work/recon.jpg",
+      alt: "Reconnaissance framework enumerating a target",
+      caption: "Fig. 6 — An enumeration run.",
+    },
+  },
+
+  {
+    slug: "misinformation-detection",
+    title: "Veracity",
+    discipline: "NLP / Research",
+    summary:
+      "Binary text classification pipelines on BERT and RoBERTa for detecting misinformation.",
+    featured: false,
+    stack: ["Python", "PyTorch", "BERT", "RoBERTa", "Transformers"],
+    role: "Solo",
+    context: "Independent research, Bennett University",
+    study: {
+      problem:
+        "Misinformation detection is posed as a classification problem and is not really one — the label depends on context a sentence does not carry. The useful starting question is how far a transformer gets on surface signal alone, and where exactly it stops.",
+      approach:
+        "Binary classification pipelines built on both BERT and RoBERTa, run as a comparison rather than a single model, so architecture choice was a variable rather than an assumption.",
+      outcome: "",
+      reflection: "",
+    },
+    highlights: [
+      "BERT and RoBERTa compared on the same classification task",
+      "Full fine-tuning pipeline rather than a frozen feature extractor",
+    ],
+    links: [],
+    cover: {
+      src: "/work/veracity.jpg",
+      alt: "Classification results across BERT and RoBERTa",
+      caption: "Fig. 7 — Architecture comparison.",
     },
   },
 ];

@@ -6,6 +6,7 @@ import {
   getProjectNeighbours,
   projects,
 } from "@/content/projects";
+import { padIndex } from "@/lib/utils";
 import { PressImage } from "@/components/layout/PressImage";
 import { SectionHead } from "@/components/layout/SectionHead";
 import { Reveal } from "@/components/motion/Reveal";
@@ -59,7 +60,9 @@ export default async function CaseStudyPage({
       <header>
         <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-ink pb-2">
           <span className="label text-accent">{project.discipline}</span>
-          <span className="label text-ink-mute">{project.year}</span>
+          {project.year ? (
+            <span className="label text-ink-mute">{project.year}</span>
+          ) : null}
         </div>
 
         <h1 className="display-xl pt-6">{project.title}</h1>
@@ -116,14 +119,25 @@ export default async function CaseStudyPage({
       {/* ── The account ─────────────────────────────────────────────────── */}
       <div className="grid grid-cols-12 gap-x-8 gap-y-12 pt-16">
         <div className="col-span-12 space-y-12 lg:col-span-8">
-          <Passage index="01" heading="The problem" body={project.study.problem} />
-          <Passage index="02" heading="The approach" body={project.study.approach} />
-          <Passage index="03" heading="The outcome" body={project.study.outcome} />
-          <Passage
-            index="04"
-            heading="In hindsight"
-            body={project.study.reflection}
-          />
+          {/* Numbered by what survives the filter, so a case study still yet to
+              have its outcome written does not read 01, 02, 04. */}
+          {(
+            [
+              ["The problem", project.study.problem],
+              ["The approach", project.study.approach],
+              ["The outcome", project.study.outcome],
+              ["In hindsight", project.study.reflection],
+            ] as const
+          )
+            .filter(([, body]) => body.trim())
+            .map(([heading, body], i) => (
+              <Passage
+                key={heading}
+                index={padIndex(i + 1)}
+                heading={heading}
+                body={body}
+              />
+            ))}
         </div>
 
         {/* Sidebar: the specifics an engineer skims for. */}
@@ -209,7 +223,13 @@ export default async function CaseStudyPage({
   );
 }
 
-/** One numbered passage of the case study. */
+/**
+ * One numbered passage of the case study.
+ *
+ * An empty body renders nothing at all. `outcome` and `reflection` ship empty
+ * rather than fabricated, and a heading standing over blank space would look
+ * like a bug — or worse, like something failed to load.
+ */
 function Passage({
   index,
   heading,
@@ -219,6 +239,8 @@ function Passage({
   heading: string;
   body: string;
 }) {
+  if (!body.trim()) return null;
+
   return (
     <Reveal as="section">
       <div className="flex items-baseline gap-4 border-b border-ink pb-2">

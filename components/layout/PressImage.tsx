@@ -42,9 +42,22 @@ export function PressImage({
 
   return (
     <figure className={cn("flex flex-col", className)}>
+      {/* A missing image is capped in height rather than reserving the full
+          aspect ratio. A 16/9 cover at full width is ~780px of empty hatching
+          on a 1440px screen, and seven case studies of that read as a broken
+          site rather than as pending artwork. Real images use the true ratio,
+          so dropping the file in restores the intended proportions. */}
       <div
-        className="press-frame halftone w-full"
-        style={{ aspectRatio: ratio }}
+        className={cn(
+          "press-frame w-full",
+          // At 130px square the dot screen is not resolvable; it only costs
+          // paint time. Reserve it for frames big enough to show it.
+          !compact && "halftone",
+        )}
+        style={{
+          aspectRatio: ratio,
+          ...(exists ? null : { maxHeight: "22rem" }),
+        }}
       >
         {exists ? (
           <Image
