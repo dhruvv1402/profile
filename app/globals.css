@@ -197,7 +197,18 @@
     letter-spacing: -0.035em;
     /* Didones sit optically inset; pull back to the true margin. */
     margin-left: -0.045em;
-    font-variation-settings: "opsz" 96;
+    /* opsz 16, not 96, and weight 900 rather than 700.
+
+       Typographically this is backwards: 96 is the display cut, and display
+       type is exactly what a masthead is. But the display cut earns its
+       hairlines from 300dpi paper. On a 1366x768 laptop at 1x the thin
+       diagonal of a V and the cap serifs fall below one device pixel and
+       simply disappear — the letter reads as a solid wedge with nothing on
+       its right side. The text cut carries thicker hairlines, which survive.
+       Weight 900 widens the glyphs by ~6% (measured), still well inside the
+       measure. Re-check both if the display face is ever swapped. */
+    font-variation-settings: "opsz" 16;
+    font-weight: 900;
   }
 
   /* From lg the name shares the row with the vertical role gutter, so it gets
@@ -230,11 +241,13 @@
 
   .display-xl {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 800;
     font-size: clamp(2.5rem, 8.5vw, 6.5rem);
     line-height: 0.85;
     letter-spacing: -0.03em;
-    font-variation-settings: "opsz" 72;
+    /* Same reasoning as .masthead: the display optical size loses its
+       hairlines at screen resolution. */
+    font-variation-settings: "opsz" 24;
   }
 
   .display-lg {

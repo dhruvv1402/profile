@@ -113,6 +113,7 @@ export function Masthead() {
             alt={site.portrait.alt}
             caption={site.portrait.caption}
             ratio="4/5"
+            variant="cutout"
             priority
             sizes="(max-width: 1024px) 100vw, 33vw"
           />

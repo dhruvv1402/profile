@@ -14,6 +14,12 @@ type Props = {
   sizes?: string;
   /** Thumbnail-sized frame: draw the placeholder without its caption text. */
   compact?: boolean;
+  /**
+   * "frame" is a wire-service photograph: ruled box, mat, dot screen.
+   * "cutout" is for a subject with a transparent background — no box at all,
+   * so the figure stands on the paper.
+   */
+  variant?: "frame" | "cutout";
 };
 
 /**
@@ -37,8 +43,12 @@ export function PressImage({
   className,
   sizes = "(max-width: 768px) 100vw, 50vw",
   compact = false,
+  variant = "frame",
 }: Props) {
   const exists = publicFileExists(src);
+  // A cut-out only makes sense once the real file is there; without it there
+  // is nothing to cut out, so the placeholder keeps its frame either way.
+  const cutout = variant === "cutout" && exists;
 
   return (
     <figure className={cn("flex flex-col", className)}>
@@ -49,10 +59,14 @@ export function PressImage({
           so dropping the file in restores the intended proportions. */}
       <div
         className={cn(
-          "press-frame w-full",
-          // At 130px square the dot screen is not resolvable; it only costs
-          // paint time. Reserve it for frames big enough to show it.
-          !compact && "halftone",
+          "w-full",
+          // The frame's mat and dot screen are drawn behind the image. That is
+          // right for a rectangular photograph and wrong for a cut-out: with a
+          // transparent background they show *through*, and the subject ends
+          // up pasted on a speckled grey panel with a dark empty band beside
+          // them. A cut-out gets no box at all.
+          cutout ? "relative" : "press-frame",
+          !cutout && !compact && "halftone",
         )}
         style={{
           aspectRatio: ratio,
@@ -72,6 +86,8 @@ export function PressImage({
           <PlaceholderMat label={compact ? null : alt} />
         )}
       </div>
+      {cutout ? <hr className="rule" /> : null}
+
       {caption ? (
         <figcaption className="label mt-2 text-ink-mute">{caption}</figcaption>
       ) : null}
