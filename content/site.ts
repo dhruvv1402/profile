@@ -83,10 +83,16 @@ export const site = {
   resumeHref: "/resume.pdf",
 
   /* ── Deployment ───────────────────────────────────────────────────────────
-     ★ SET THIS TO THE REAL DOMAIN. ★ Canonical URLs, the sitemap and the
-     absolute OG image path all read from it, and indexing stays switched off
-     while it still says example.com — see content/flags.ts. */
-  url: "https://example.com",
+     The live origin. Canonical URLs, the sitemap and the absolute Open Graph
+     image path are all built from this, so while it was wrong every share
+     preview pointed at an image that did not exist.
+
+     Setting it also opens the indexing gate in content/flags.ts, since the
+     other condition — the copy being real — is already met.
+
+     Change this the day a custom domain is attached, and add a redirect from
+     the vercel.app address so the two do not compete in search. */
+  url: "https://profile-lemon-iota.vercel.app",
 
   /* ── Hero portrait ────────────────────────────────────────────────────── */
   portrait: {
