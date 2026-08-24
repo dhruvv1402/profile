@@ -38,7 +38,6 @@ export default async function HomePage() {
       {repos.length > 0 && <GithubDispatch repos={repos} index={folio()} />}
       {notes.length > 0 && <Notes index={folio()} />}
 
-      <Marquee items={ticker} duration={55} reverse />
       <ContactBlock index={folio()} />
     </>
   );

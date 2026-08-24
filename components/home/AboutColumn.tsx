@@ -27,7 +27,10 @@ export function AboutColumn({ index }: { index: string }) {
 
         {/* The pull quote, ruled off in its own column like a boxed aside. */}
         <Reveal className="col-span-12 lg:col-span-4" delay={0.1}>
-          <div className="lg:rule-l lg:pl-6">
+          {/* border utilities, not .rule-l — component classes defined in
+              @layer components do not accept variants, so `lg:rule-l` silently
+              produced no rule at all. */}
+          <div className="lg:border-l lg:border-ink lg:pl-6">
             <hr className="rule-thick mb-4" />
             {pullQuote ? (
               <>

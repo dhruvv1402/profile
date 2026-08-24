@@ -10,7 +10,6 @@
   /* Ink and paper */
   --color-paper: #f2efe8; /* page ground: warm off-white newsprint */
   --color-paper-sub: #e8e4da; /* inset panels, image mats */
-  --color-paper-deep: #ddd8cb; /* pressed / active states */
   /* Three tiers of ink. Every one of them clears WCAG AA (4.5:1) against both
      --color-paper and --color-paper-sub, because all three are used on real
      text at label size, not just on headings. Verified, not eyeballed — if you
@@ -39,7 +38,6 @@
 [data-theme="night"] {
   --color-paper: #14110f;
   --color-paper-sub: #1e1a17;
-  --color-paper-deep: #2a2421;
   --color-ink: #f2efe8;
   --color-ink-mute: #a49b90;
   --color-ink-faint: #8d8377;
@@ -141,15 +139,11 @@
     border-bottom: 3px solid var(--color-ink);
     margin: 0;
   }
-  .rule-l {
-    border-left: 1px solid var(--color-ink);
-  }
-  .rule-r {
-    border-right: 1px solid var(--color-ink);
-  }
-  .rule-t {
-    border-top: 1px solid var(--color-ink);
-  }
+  /* Only the bottom edge is defined. The other three were never used, and
+     the left one was actively misleading: it was written as `lg:rule-l`,
+     which does nothing, because a class in @layer components takes no
+     Tailwind variant. Reach for border-l / border-ink when you need a rule
+     on one side conditionally. */
   .rule-b {
     border-bottom: 1px solid var(--color-ink);
   }
@@ -252,10 +246,6 @@
   }
 
   /* Rotated gutter text. Only ever used in gutters, as in the reference. */
-  .vertical {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-  }
   .vertical-up {
     writing-mode: vertical-rl;
     transform: rotate(180deg);

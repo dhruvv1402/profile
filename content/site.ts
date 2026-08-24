@@ -21,12 +21,12 @@ export const site = {
   fullName: "Dhruv Gupta",
 
   /* The rotated stack in the hero's right gutter. Short lines only — they are
-     set vertically and read bottom-to-top. Three or four is the sweet spot. */
+     set vertically and read bottom-to-top. Three is plenty — the dateline
+     already carries the location, so it does not need repeating here. */
   roles: [
     "Machine Learning & Systems",
     "Computer Science Undergraduate",
     "Undergraduate Researcher",
-    "Based in Greater Noida, IN",
   ],
 
   /* One line, used under the masthead and as the meta description fallback. */
@@ -51,7 +51,7 @@ export const site = {
      Set to null to remove it. */
   sticker: "Open to work" as string | null,
 
-  location: "Greater Noida, IN",
+  location: "Gurugram, IN",
   timezone: "Asia/Kolkata",
 
   /* GitHub username. Pulls recently-pushed public repositories into the
