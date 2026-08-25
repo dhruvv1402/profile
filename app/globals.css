@@ -332,6 +332,92 @@
     display: inline;
   }
 
+  /* ── The type drum ────────────────────────────────────────────────────
+     A cylinder of skill names turning on its horizontal axis, like the print
+     drum of a line printer. Three transforms and one keyframe; the compositor
+     does the rest.
+
+     The mask is what sells it as a cylinder rather than a carousel — slats
+     fade out as they approach the top and bottom edges, so the surface reads
+     as curving away instead of being clipped by a box. */
+  .type-drum {
+    position: relative;
+    width: 100%;
+    /* A long lens. Shorter perspective exaggerates the foreshortening until
+       the slats near the edges are unreadable smears. */
+    perspective: 1600px;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 22%,
+      #000 78%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 22%,
+      #000 78%,
+      transparent
+    );
+  }
+
+  .type-drum-axis {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    animation: drum-turn 34s linear infinite;
+  }
+  /* Stop it while a reader is looking at something. */
+  .type-drum:hover .type-drum-axis {
+    animation-play-state: paused;
+  }
+
+  .type-drum-slat {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: var(--drum-slat);
+    margin-top: calc(var(--drum-slat) / -2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-ink);
+    /* Heavier and a shade larger than a standard label. Every slat except the
+       one square to the camera is tilted, and tilted text antialiases soft —
+       at label weight the whole drum reads grey rather than inked. */
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    /* Each slat takes its own share of the circle, then moves out to the
+       drum surface. */
+    transform: rotateX(calc(var(--i) * (360deg / var(--drum-count))))
+      translateZ(var(--drum-radius));
+    /* Without this the far side of the drum shows through as mirrored text. */
+    backface-visibility: hidden;
+  }
+  /* A hairline on each slat, so the drum reads as ruled metal type. */
+  .type-drum-slat::after {
+    content: "";
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    bottom: 0;
+    height: 1px;
+    background: color-mix(in srgb, var(--color-ink) 25%, transparent);
+  }
+
+  .type-drum-slat:nth-child(5n + 1) {
+    color: var(--color-accent);
+  }
+
+  @keyframes drum-turn {
+    to {
+      transform: rotateX(-360deg);
+    }
+  }
+
   /* Halftone: a dot screen over photography, so images read as printed
      rather than shot.
 

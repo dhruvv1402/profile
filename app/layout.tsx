@@ -6,7 +6,6 @@ import { IS_INDEXABLE } from "@/content/flags";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { Cursor } from "@/components/motion/Cursor";
 import { GridOverlay } from "@/components/layout/GridOverlay";
 import "./globals.css";
 
@@ -97,7 +96,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
 
         <SmoothScroll />
-        <Cursor />
         {/* Alignment aid, development only — see GridOverlay. */}
         {process.env.NODE_ENV === "development" ? <GridOverlay /> : null}
 
