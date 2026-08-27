@@ -92,7 +92,7 @@ export const site = {
 
      Change this the day a custom domain is attached, and add a redirect from
      the vercel.app address so the two do not compete in search. */
-  url: "https://profile-lemon-iota.vercel.app",
+  url: "https://dhruvcodes.vercel.app",
 
   /* ── Hero portrait ────────────────────────────────────────────────────── */
   portrait: {
