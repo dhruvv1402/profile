@@ -57,7 +57,7 @@ export function Chronicle({ index }: { index: string }) {
                 {carriesCalendar ? (
                   <Disclosure
                     className="mt-5"
-                    closedLabel={`+ Open the college calendar — ${collegeEvents.length} events staged`}
+                    closedLabel="+ Open the college calendar"
                     openLabel="− Close the college calendar"
                   >
                     <ul className="grid grid-cols-12 gap-x-6 gap-y-12 pb-2 pt-8">

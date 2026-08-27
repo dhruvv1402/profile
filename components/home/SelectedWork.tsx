@@ -6,6 +6,7 @@ import type { Repo } from "@/lib/github";
 import { padIndex } from "@/lib/utils";
 import { SectionHead } from "@/components/layout/SectionHead";
 import { Reveal } from "@/components/motion/Reveal";
+import { Disclosure } from "@/components/motion/Disclosure";
 import {
   ProjectHoverImage,
   type HoverSlide,
@@ -94,19 +95,16 @@ export function SelectedWork({
         </Link>
       </div>
 
-      {/* ── Live from the wire ─────────────────────────────────────────── */}
+      {/* ── Live from the wire ─────────────────────────────────────────
+          Folded behind its control, like the college calendar: the index
+          above is the section's statement, the wire is for whoever asks. */}
       {repos.length > 0 ? (
-        <div className="pt-14">
-          <Reveal>
-            <div className="flex items-baseline justify-between gap-4 border-b border-ink pb-2">
-              <h3 className="label">
-                Live from the wire &mdash; recently pushed
-              </h3>
-              <span className="label text-ink-mute">Updated hourly</span>
-            </div>
-          </Reveal>
-
-          <div className="overflow-x-auto">
+        <Disclosure
+          className="pt-10"
+          closedLabel="+ Live from the wire — recently pushed to GitHub"
+          openLabel="− Close the wire"
+        >
+          <div className="overflow-x-auto pt-4">
             <table className="w-full min-w-[38rem] border-collapse text-left">
               <caption className="label pb-4 pt-3 text-left text-ink-mute">
                 Public repositories, straight from the GitHub API.
@@ -166,7 +164,7 @@ export function SelectedWork({
             </table>
           </div>
 
-          <div className="pt-6">
+          <div className="pb-2 pt-6">
             <a
               href={`https://github.com/${site.github}`}
               target="_blank"
@@ -176,7 +174,7 @@ export function SelectedWork({
               Full archive on GitHub &rarr;
             </a>
           </div>
-        </div>
+        </Disclosure>
       ) : null}
     </section>
   );
