@@ -27,3 +27,13 @@ export function publicFileExists(src: string) {
 export function resumeAvailable(href: string) {
   return publicFileExists(href);
 }
+
+/**
+ * Size and date of a file under public/, for The Dossier's filing line.
+ * Evaluated at build time; null when the file is missing.
+ */
+export function publicFileMeta(src: string) {
+  if (!publicFileExists(src)) return null;
+  const stats = fs.statSync(path.join(process.cwd(), "public", src));
+  return { kilobytes: Math.max(1, Math.round(stats.size / 1024)), modified: stats.mtime };
+}

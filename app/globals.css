@@ -587,6 +587,50 @@
       transform: rotate(360deg);
     }
   }
+
+  /* ── The dossier sheet ────────────────────────────────────────────────
+     The résumé drawn as a filed document: a ruled sheet with a folded
+     corner and the hard offset shadow of a thing lying on the desk. */
+  .dossier-sheet {
+    position: relative;
+    aspect-ratio: 8.5 / 11;
+    max-width: 9rem;
+    padding: 12% 14%;
+    border: 1px solid var(--color-ink);
+    background: var(--color-paper);
+    box-shadow: 4px 4px 0 color-mix(in srgb, var(--color-ink) 18%, transparent);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .dossier-sheet:hover {
+    transform: translate(-2px, -2px) rotate(-1deg);
+  }
+  /* Ruled lines standing in for the copy. */
+  .dossier-sheet::before {
+    content: "";
+    position: absolute;
+    inset: 34% 14% 14%;
+    background: repeating-linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-ink) 30%, transparent) 0 1px,
+      transparent 1px 18%
+    );
+  }
+  /* The folded corner. */
+  .dossier-sheet::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 22%;
+    aspect-ratio: 1;
+    background: linear-gradient(
+      225deg,
+      var(--color-paper) 0 50%,
+      var(--color-paper-sub) 50%
+    );
+    border-left: 1px solid var(--color-ink);
+    border-bottom: 1px solid var(--color-ink);
+  }
 }
 
 /* ===========================================================================

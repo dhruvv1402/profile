@@ -1,5 +1,6 @@
 import { notes, site, ticker } from "@/content/site";
 import { getRecentRepos } from "@/lib/github";
+import { resumeAvailable } from "@/lib/assets";
 import { spotifyConfigured } from "@/lib/spotify";
 import { padIndex } from "@/lib/utils";
 import { Marquee } from "@/components/layout/Marquee";
@@ -11,6 +12,7 @@ import { Chronicle } from "@/components/home/Chronicle";
 import { GithubDispatch } from "@/components/home/GithubDispatch";
 import { Notes } from "@/components/home/Notes";
 import { Gramophone } from "@/components/home/Gramophone";
+import { Dossier } from "@/components/home/Dossier";
 import { ContactBlock } from "@/components/home/ContactBlock";
 import { WireSignoff } from "@/components/home/WireSignoff";
 
@@ -41,6 +43,7 @@ export default async function HomePage() {
       {repos.length > 0 && <GithubDispatch repos={repos} index={folio()} />}
       {notes.length > 0 && <Notes index={folio()} />}
       {spotifyConfigured() && <Gramophone index={folio()} />}
+      {resumeAvailable(site.resumeHref) && <Dossier index={folio()} />}
 
       <WireSignoff />
       <ContactBlock index={folio()} />
