@@ -1,6 +1,7 @@
-import { chronicle } from "@/content/site";
+import { chronicle, collegeEvents } from "@/content/site";
 import { SectionHead } from "@/components/layout/SectionHead";
 import { Reveal } from "@/components/motion/Reveal";
+import { PressImage } from "@/components/layout/PressImage";
 
 /**
  * A record of proceedings: education and experience, dated, newest first.
@@ -11,6 +12,12 @@ import { Reveal } from "@/components/motion/Reveal";
  *
  * Rendered as a description list: each entry is genuinely a term (the period)
  * and its details, so the markup says what the layout is showing.
+ *
+ * Beneath the record sits the college calendar: events staged and organised
+ * at university, each with a framed photograph — the society pages of the
+ * same section rather than a section of their own, because they belong to
+ * the college entry above them. Empty the collegeEvents array in
+ * content/site.ts and the block disappears.
  */
 export function Chronicle({ index }: { index: string }) {
   return (
@@ -45,6 +52,52 @@ export function Chronicle({ index }: { index: string }) {
           </Reveal>
         ))}
       </dl>
+
+      {/* ── The college calendar ─────────────────────────────────────────── */}
+      {collegeEvents.length > 0 ? (
+        <div className="pt-14">
+          <Reveal>
+            <div className="flex items-baseline justify-between gap-4 border-b border-ink pb-2">
+              <h3 className="label">
+                From the college calendar &mdash; events staged
+              </h3>
+              <span className="label text-ink-mute">
+                {collegeEvents.length} gatherings
+              </span>
+            </div>
+          </Reveal>
+
+          <ul className="grid grid-cols-12 gap-x-6 gap-y-12 pt-8">
+            {collegeEvents.map((event, i) => (
+              <Reveal
+                as="li"
+                key={event.title}
+                delay={i * 0.06}
+                className="col-span-12 sm:col-span-6 lg:col-span-4"
+              >
+                <PressImage
+                  src={event.photo.src}
+                  alt={event.photo.alt}
+                  ratio="3/2"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  caption={`Fig. — ${event.title}, ${event.date}.`}
+                />
+
+                <div className="mt-4 flex items-baseline justify-between gap-4">
+                  <span className="label text-accent">{event.role}</span>
+                  <span className="label text-ink-mute">{event.date}</span>
+                </div>
+
+                <h4 className="display-lg mt-2">{event.title}</h4>
+                <p className="label mt-1 text-ink-mute">{event.org}</p>
+                <p className="mt-3 text-sm leading-relaxed text-ink-mute">
+                  {event.detail}
+                </p>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </section>
   );
 }

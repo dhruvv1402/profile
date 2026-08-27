@@ -256,6 +256,72 @@ export const honours: Honour[] = [
 ];
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   THE BULLETIN
+   Events staged and organised at college — the society pages of this paper.
+   Rendered under The Chronicle with a framed photograph per event.
+
+   CHECK THIS: the three entries below are PLACEHOLDERS so the section has a
+   shape while the real list is gathered. Replace every field with your actual
+   events, or empty the array and the section disappears from the page.
+
+   Photographs go in public/events/ under the `src` given here. Until a file
+   exists the frame shows a ruled "image pending" mat — drop the photo in and
+   it swaps automatically, no code change.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+export type CollegeEvent = {
+  title: string;
+  /** Display date, e.g. "Mar 2026". */
+  date: string;
+  /** What you did: "Lead organiser", "Co-organiser", "Host". */
+  role: string;
+  /** The body it was staged with, e.g. "IEEE Student Chapter". */
+  org: string;
+  /** One or two sentences on what it was and how it went. */
+  detail: string;
+  photo: { src: string; alt: string };
+};
+
+export const collegeEvents: CollegeEvent[] = [
+  {
+    title: "AI Research Workshop",
+    date: "2025",
+    role: "Organiser",
+    org: "IEEE Student Chapter",
+    detail:
+      "Placeholder — replace with the real event, what you ran, and how many turned up.",
+    photo: {
+      src: "/events/ai-research-workshop.jpg",
+      alt: "AI Research Workshop",
+    },
+  },
+  {
+    title: "Tech Talk Series",
+    date: "2025",
+    role: "Organiser",
+    org: "ACM Student Chapter",
+    detail:
+      "Placeholder — replace with the real event, what you ran, and how many turned up.",
+    photo: {
+      src: "/events/tech-talk-series.jpg",
+      alt: "Tech Talk Series",
+    },
+  },
+  {
+    title: "Project Showcase Night",
+    date: "2026",
+    role: "Organiser",
+    org: "IEEE & ACM Student Chapters",
+    detail:
+      "Placeholder — replace with the real event, what you ran, and how many turned up.",
+    photo: {
+      src: "/events/project-showcase-night.jpg",
+      alt: "Project Showcase Night",
+    },
+  },
+];
+
+/* ═══════════════════════════════════════════════════════════════════════════
    NOTES
    Short write-ups. `href` can point anywhere — a future /notes route, a gist,
    a repository README.
@@ -279,8 +345,16 @@ export const notes: Note[] = [];
    NAVIGATION
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* The folio bar also carries LinkedIn — the address recruiters actually
+   reach for. Pulled from socials above so the URL lives in one place. */
 export const nav = [
   { label: "Work", href: "/work" },
   { label: "About", href: "/about" },
+  {
+    label: "LinkedIn",
+    href:
+      site.socials.find((s) => s.label === "LinkedIn")?.href ??
+      "https://www.linkedin.com/in/dhruvv-gupta/",
+  },
   { label: "Résumé", href: site.resumeHref },
 ];

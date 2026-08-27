@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  images: {
+    // Album art for the gramophone section comes from Spotify's CDN.
+    remotePatterns: [{ protocol: "https", hostname: "i.scdn.co" }],
+  },
 };
 
 export default nextConfig;

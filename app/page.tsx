@@ -1,5 +1,6 @@
 import { notes, site, ticker } from "@/content/site";
 import { getRecentRepos } from "@/lib/github";
+import { spotifyConfigured } from "@/lib/spotify";
 import { padIndex } from "@/lib/utils";
 import { Marquee } from "@/components/layout/Marquee";
 import { Masthead } from "@/components/home/Masthead";
@@ -9,7 +10,9 @@ import { StackClassifieds } from "@/components/home/StackClassifieds";
 import { Chronicle } from "@/components/home/Chronicle";
 import { GithubDispatch } from "@/components/home/GithubDispatch";
 import { Notes } from "@/components/home/Notes";
+import { Gramophone } from "@/components/home/Gramophone";
 import { ContactBlock } from "@/components/home/ContactBlock";
+import { WireSignoff } from "@/components/home/WireSignoff";
 
 /**
  * The front page, composed in reading order.
@@ -37,7 +40,9 @@ export default async function HomePage() {
       <Chronicle index={folio()} />
       {repos.length > 0 && <GithubDispatch repos={repos} index={folio()} />}
       {notes.length > 0 && <Notes index={folio()} />}
+      {spotifyConfigured() && <Gramophone index={folio()} />}
 
+      <WireSignoff />
       <ContactBlock index={folio()} />
     </>
   );

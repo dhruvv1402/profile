@@ -447,6 +447,149 @@
 }
 
 /* ===========================================================================
+   THE PRESS ROOM
+   The page's living machinery: the rolling folio counters, the telemetry
+   chip in the corner, and the gramophone's record player.
+   =========================================================================== */
+
+@layer components {
+  /* ── The rolling folio ────────────────────────────────────────────────
+     Section numbers arrive like a mechanical counter: each digit is a
+     clipped column of 0–9 rolling from zero to its value. The resting
+     transform is the default so a page without JavaScript shows the right
+     number; only the zeroed start state needs `.js`. RollingIndex.tsx
+     flips [data-odo-on] when the section enters. */
+  .odo-digit {
+    display: inline-block;
+    overflow: hidden;
+    height: 1em;
+    line-height: 1;
+    vertical-align: baseline;
+  }
+  .odo-col {
+    display: inline-block;
+    transform: translateY(calc(var(--d, 0) * -1em));
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .odo-col > span {
+    display: block;
+    height: 1em;
+    line-height: 1;
+  }
+  .js [data-odo]:not([data-odo-on]) .odo-col {
+    transform: translateY(0);
+  }
+
+  /* ── The telemetry chip ───────────────────────────────────────────────
+     The wire's vitals, pinned to the corner of the desk. JavaScript-fed,
+     so it only exists under `.js`; small screens keep their corners. */
+  .wire-tel {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .js .wire-tel {
+      position: fixed;
+      right: 14px;
+      bottom: 12px;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      padding: 0.45em 0.8em;
+      border: 1px solid var(--color-ink);
+      background: var(--color-paper);
+      color: var(--color-ink-mute);
+      box-shadow: 3px 3px 0 color-mix(in srgb, var(--color-ink) 18%, transparent);
+    }
+  }
+  .wire-tel-lamp {
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background: var(--color-accent);
+    animation: wire-lamp 1.6s steps(1) infinite;
+  }
+  .wire-tel-sep {
+    width: 1px;
+    height: 1em;
+    background: color-mix(in srgb, var(--color-ink) 30%, transparent);
+  }
+  @keyframes wire-lamp {
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  /* ── The gramophone ───────────────────────────────────────────────────
+     A record half-drawn from its sleeve, turning while something is
+     playing. The vinyl is fixed near-black on purpose — a pressed record
+     is an object on the desk, not print, and it does not invert with the
+     night edition. The label swatch is the house gold.
+
+     The disc spins only when [data-spinning] is set by the client (music
+     actually playing); at rest it sits still, as a record should. Reduced
+     motion stills it globally through the motion contract. */
+  .gramo-stage {
+    position: relative;
+    /* Room for the disc peeking out to the right of the sleeve. */
+    padding-right: 30%;
+  }
+  .gramo-disc {
+    position: absolute;
+    top: 3%;
+    right: 0;
+    /* A record is fractionally smaller than its sleeve. */
+    width: 65%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:
+      radial-gradient(
+        circle,
+        transparent 0 4.5%,
+        var(--color-gold) 4.5% 17%,
+        #17130f 17.5% 18.5%,
+        transparent 18.5%
+      ),
+      repeating-radial-gradient(
+        circle,
+        #17130f 0 2px,
+        #241e18 2px 3px
+      );
+    box-shadow:
+      inset 0 0 0 1px #0c0a08,
+      4px 6px 18px color-mix(in srgb, var(--color-ink) 30%, transparent);
+  }
+  .gramo-disc[data-spinning] {
+    animation: gramo-spin 3.2s linear infinite;
+  }
+  /* A needle-drop glint across the grooves so the surface reads as vinyl. */
+  .gramo-disc::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 40deg,
+      transparent 0 12%,
+      rgba(255, 255, 255, 0.07) 16%,
+      transparent 22%,
+      transparent 55%,
+      rgba(255, 255, 255, 0.05) 60%,
+      transparent 66%
+    );
+  }
+  .gramo-sleeve {
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes gramo-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* ===========================================================================
    MOTION
    All of it is CSS. Nothing on this page needs JavaScript to become visible:
    the scroll reveals below are scoped to `.js` (set by the inline script in

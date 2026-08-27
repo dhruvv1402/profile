@@ -17,7 +17,10 @@ export function Header() {
   );
 
   return (
-    <header className="shell no-print">
+    // Raised above the page: the masthead's letter boxes carry -0.41em top
+    // margins (see .letter-box) and reach up over the folio bar as invisible
+    // hit targets — without a stacking lift, clicks on the bar land on them.
+    <header className="shell no-print relative z-10">
       {/* Wraps rather than overflows. At 375px the byline plus four nav items
           is a few pixels too wide, and a folio bar that pushes the page into
           horizontal scroll is worse than one that runs to two lines. */}
@@ -34,9 +37,22 @@ export function Header() {
           <ul className="flex items-center gap-x-4 gap-y-1 sm:gap-5">
             {items.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="label link-rule tap">
-                  {item.label}
-                </Link>
+                {/* External destinations (LinkedIn) leave the paper in a new
+                    tab; sections of the paper navigate in place. */}
+                {item.href.startsWith("http") ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="label link-rule tap"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link href={item.href} className="label link-rule tap">
+                    {item.label}
+                  </Link>
+                )}
               </li>
             ))}
             <li>

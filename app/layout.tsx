@@ -5,6 +5,7 @@ import { site } from "@/content/site";
 import { IS_INDEXABLE } from "@/content/flags";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { WireTelemetry } from "@/components/layout/WireTelemetry";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { GridOverlay } from "@/components/layout/GridOverlay";
 import "./globals.css";
@@ -104,6 +105,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+
+        {/* The wire's vitals, pinned to the corner on desktop. */}
+        <WireTelemetry />
 
         <Analytics />
       </body>
