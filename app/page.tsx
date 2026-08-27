@@ -5,6 +5,7 @@ import { spotifyConfigured } from "@/lib/spotify";
 import { padIndex } from "@/lib/utils";
 import { Marquee } from "@/components/layout/Marquee";
 import { Masthead } from "@/components/home/Masthead";
+import { StopPress } from "@/components/home/StopPress";
 import { SelectedWork } from "@/components/home/SelectedWork";
 import { AboutColumn } from "@/components/home/AboutColumn";
 import { StackClassifieds } from "@/components/home/StackClassifieds";
@@ -34,6 +35,8 @@ export default async function HomePage() {
     <>
       <Masthead />
       <Marquee items={ticker} duration={45} />
+      {/* The late box takes no folio — it is an insert, not a section. */}
+      <StopPress />
 
       <SelectedWork index={folio()} repos={repos} />
       <AboutColumn index={folio()} />

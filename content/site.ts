@@ -124,6 +124,20 @@ export const bio = [
 export const pullQuote: string | null = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   STOP PRESS
+   The late box: one or two sentences on what is at the bench RIGHT NOW,
+   dropped onto the front page after the marquee. The cheapest freshness
+   signal on the site — and the most perishable. Update it casually and
+   often; a stale stop press reads worse than none. Set to null and the box
+   comes off the page.
+
+   CHECK THIS: keep the line current — it should change every few weeks.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+export const stopPress: string | null =
+  "At the bench this week: brain-network models for the research desk, and this very page — new sections are being set as you read.";
+
+/* ═══════════════════════════════════════════════════════════════════════════
    THE TICKER
    The marquee strip under the hero. Short phrases only — they scroll past.
    ═══════════════════════════════════════════════════════════════════════════ */
