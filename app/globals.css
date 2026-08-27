@@ -588,6 +588,24 @@
     }
   }
 
+  /* ── The drawer ───────────────────────────────────────────────────────
+     Disclosure.tsx's folding panel. The grid row eases between nothing and
+     the content's natural height — no measuring. Open is the default so a
+     page without JavaScript hides nothing; the collapsed state needs `.js`,
+     the same contract as the reveals. */
+  .disclose-panel {
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .js .disclose-panel:not([data-open]) {
+    grid-template-rows: 0fr;
+  }
+  .disclose-panel > div {
+    overflow: hidden;
+    min-height: 0;
+  }
+
   /* ── The dossier sheet ────────────────────────────────────────────────
      The résumé drawn as a filed document: a ruled sheet with a folded
      corner and the hard offset shadow of a thing lying on the desk. */

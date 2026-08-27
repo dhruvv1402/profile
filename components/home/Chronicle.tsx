@@ -1,6 +1,7 @@
 import { chronicle, collegeEvents } from "@/content/site";
 import { SectionHead } from "@/components/layout/SectionHead";
 import { Reveal } from "@/components/motion/Reveal";
+import { Disclosure } from "@/components/motion/Disclosure";
 import { PressImage } from "@/components/layout/PressImage";
 
 /**
@@ -13,11 +14,11 @@ import { PressImage } from "@/components/layout/PressImage";
  * Rendered as a description list: each entry is genuinely a term (the period)
  * and its details, so the markup says what the layout is showing.
  *
- * Beneath the record sits the college calendar: events staged and organised
- * at university, each with a framed photograph — the society pages of the
- * same section rather than a section of their own, because they belong to
- * the college entry above them. Empty the collegeEvents array in
- * content/site.ts and the block disappears.
+ * The college calendar — events staged at university, with photographs —
+ * folds out of the Bennett education entry on request, keeping the landing
+ * page to a single line about it. Without JavaScript the drawer stands
+ * open. Empty the collegeEvents array in content/site.ts and the control
+ * disappears entirely.
  */
 export function Chronicle({ index }: { index: string }) {
   return (
@@ -29,75 +30,76 @@ export function Chronicle({ index }: { index: string }) {
       />
 
       <dl className="pt-2">
-        {chronicle.map((entry, i) => (
-          <Reveal
-            key={`${entry.period}-${entry.title}`}
-            delay={i * 0.05}
-            className="grid grid-cols-12 gap-x-6 gap-y-2 border-b border-ink py-6"
-          >
-            <dt className="label col-span-12 md:col-span-2">
-              {entry.period}
-              <span className="mt-1 block text-ink-faint">
-                {entry.kind === "education" ? "Education" : "Experience"}
-              </span>
-            </dt>
+        {chronicle.map((entry, i) => {
+          const carriesCalendar =
+            entry.kind === "education" && collegeEvents.length > 0;
 
-            <dd className="col-span-12 md:col-span-10">
-              <h3 className="display-lg">{entry.title}</h3>
-              <p className="label mt-1 text-accent">{entry.org}</p>
-              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-ink-mute">
-                {entry.detail}
-              </p>
-            </dd>
-          </Reveal>
-        ))}
-      </dl>
+          return (
+            <Reveal
+              key={`${entry.period}-${entry.title}`}
+              delay={i * 0.05}
+              className="grid grid-cols-12 gap-x-6 gap-y-2 border-b border-ink py-6"
+            >
+              <dt className="label col-span-12 md:col-span-2">
+                {entry.period}
+                <span className="mt-1 block text-ink-faint">
+                  {entry.kind === "education" ? "Education" : "Experience"}
+                </span>
+              </dt>
 
-      {/* ── The college calendar ─────────────────────────────────────────── */}
-      {collegeEvents.length > 0 ? (
-        <div className="pt-14">
-          <Reveal>
-            <div className="flex items-baseline justify-between gap-4 border-b border-ink pb-2">
-              <h3 className="label">
-                From the college calendar &mdash; events staged
-              </h3>
-              <span className="label text-ink-mute">
-                {collegeEvents.length} gatherings
-              </span>
-            </div>
-          </Reveal>
-
-          <ul className="grid grid-cols-12 gap-x-6 gap-y-12 pt-8">
-            {collegeEvents.map((event, i) => (
-              <Reveal
-                as="li"
-                key={event.title}
-                delay={i * 0.06}
-                className="col-span-12 sm:col-span-6 lg:col-span-4"
-              >
-                <PressImage
-                  src={event.photo.src}
-                  alt={event.photo.alt}
-                  ratio="3/2"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  caption={`Fig. — ${event.title}, ${event.date}.`}
-                />
-
-                <div className="mt-4 flex items-baseline justify-between gap-4">
-                  <span className="label text-accent">{event.role}</span>
-                  <span className="label text-ink-mute">{event.date}</span>
-                </div>
-
-                <h4 className="display-lg mt-2">{event.title}</h4>
-                <p className="label mt-1 text-ink-mute">{event.org}</p>
-                <p className="mt-3 text-sm leading-relaxed text-ink-mute">
-                  {event.detail}
+              <dd className="col-span-12 md:col-span-10">
+                <h3 className="display-lg">{entry.title}</h3>
+                <p className="label mt-1 text-accent">{entry.org}</p>
+                <p className="mt-3 max-w-3xl text-sm leading-relaxed text-ink-mute">
+                  {entry.detail}
                 </p>
-              </Reveal>
-            ))}
-          </ul>
-        </div>
-      ) : null}
+
+                {carriesCalendar ? (
+                  <Disclosure
+                    className="mt-5"
+                    closedLabel={`+ Open the college calendar — ${collegeEvents.length} events staged`}
+                    openLabel="− Close the college calendar"
+                  >
+                    <ul className="grid grid-cols-12 gap-x-6 gap-y-12 pb-2 pt-8">
+                      {collegeEvents.map((event) => (
+                        <li
+                          key={event.title}
+                          className="col-span-12 sm:col-span-6 lg:col-span-4"
+                        >
+                          <PressImage
+                            src={event.photo.src}
+                            alt={event.photo.alt}
+                            ratio="3/2"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 28vw"
+                            caption={`Fig. — ${event.title}, ${event.date}.`}
+                          />
+
+                          <div className="mt-4 flex items-baseline justify-between gap-4">
+                            <span className="label text-accent">
+                              {event.role}
+                            </span>
+                            <span className="label text-ink-mute">
+                              {event.date}
+                            </span>
+                          </div>
+
+                          <h4 className="display-lg mt-2">{event.title}</h4>
+                          <p className="label mt-1 text-ink-mute">
+                            {event.org}
+                          </p>
+                          <p className="mt-3 text-sm leading-relaxed text-ink-mute">
+                            {event.detail}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </Disclosure>
+                ) : null}
+              </dd>
+            </Reveal>
+          );
+        })}
+      </dl>
     </section>
   );
 }

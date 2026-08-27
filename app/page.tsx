@@ -9,7 +9,6 @@ import { SelectedWork } from "@/components/home/SelectedWork";
 import { AboutColumn } from "@/components/home/AboutColumn";
 import { StackClassifieds } from "@/components/home/StackClassifieds";
 import { Chronicle } from "@/components/home/Chronicle";
-import { GithubDispatch } from "@/components/home/GithubDispatch";
 import { Notes } from "@/components/home/Notes";
 import { Gramophone } from "@/components/home/Gramophone";
 import { Dossier } from "@/components/home/Dossier";
@@ -36,11 +35,10 @@ export default async function HomePage() {
       <Masthead />
       <Marquee items={ticker} duration={45} />
 
-      <SelectedWork index={folio()} />
+      <SelectedWork index={folio()} repos={repos} />
       <AboutColumn index={folio()} />
       <StackClassifieds index={folio()} />
       <Chronicle index={folio()} />
-      {repos.length > 0 && <GithubDispatch repos={repos} index={folio()} />}
       {notes.length > 0 && <Notes index={folio()} />}
       {spotifyConfigured() && <Gramophone index={folio()} />}
       {resumeAvailable(site.resumeHref) && <Dossier index={folio()} />}
