@@ -174,55 +174,37 @@ export const projects: Project[] = [
   },
 
   {
-    /* Summary from the repository's own description. */
-    slug: "brain-tumor-segmentation-unet",
-    title: "Brain Tumour Segmentation — U-Net on BraTS 2020",
-    shortTitle: "U-Net on BraTS 2020",
+    /* One project, two approaches: a U-Net baseline and a conditional-GAN
+       method, each in its own repository. Summary from the repositories'
+       own descriptions. */
+    slug: "brain-tumor-segmentation-brats",
+    title: "Brain Tumour Segmentation on BraTS 2020",
+    shortTitle: "Tumour Segmentation — BraTS",
     discipline: "Medical imaging / DL",
     summary:
-      "Deep learning pipeline automating brain tumour segmentation from multi-modal MRI scans on the BraTS 2020 dataset, distinguishing necrotic core, peritumoral edema, and enhancing tumour.",
+      "Deep learning pipeline automating brain tumour segmentation from multi-modal MRI scans on the BraTS 2020 dataset — a U-Net baseline and a conditional-GAN approach — distinguishing necrotic core, peritumoral edema, and enhancing tumour.",
     featured: true,
     stack: ["Python"],
     study: { ...emptyStudy },
     highlights: [
       "Multi-modal MRI input",
       "Necrotic core, edema, and enhancing tumour classes",
+      "U-Net baseline and conditional-GAN approach, side by side",
     ],
     links: [
       {
-        label: "Source",
+        label: "U-Net source",
         href: "https://github.com/dhruvv1402/Brain-Tumor-Segmentation-U-Net-on-BraTS-2020",
       },
-    ],
-    cover: {
-      src: "/work/brats-unet.jpg",
-      alt: "U-Net brain tumour segmentation output",
-      caption: "Fig. 5 — Segmentation masks.",
-    },
-  },
-
-  {
-    /* CHECK THIS: summary derived from the repository name only. */
-    slug: "conditional-gans-mri-segmentation",
-    title: "Conditional GANs for MRI Tumour Segmentation",
-    shortTitle: "Conditional GANs for MRI",
-    discipline: "Medical imaging / DL",
-    summary:
-      "Conditional generative adversarial networks applied to tumour segmentation on MRI scans.",
-    featured: true,
-    stack: ["Python"],
-    study: { ...emptyStudy },
-    highlights: [],
-    links: [
       {
-        label: "Source",
+        label: "Conditional GAN source",
         href: "https://github.com/dhruvv1402/Conditional-GANs-for-MRI-Tumor-Segmentation",
       },
     ],
     cover: {
-      src: "/work/cgan-mri.jpg",
-      alt: "Conditional GAN segmentation output",
-      caption: "Fig. 6 — Generated segmentations.",
+      src: "/work/brats-unet.jpg",
+      alt: "Brain tumour segmentation masks on BraTS 2020",
+      caption: "Fig. 5 — Segmentation masks.",
     },
   },
 
@@ -247,7 +229,7 @@ export const projects: Project[] = [
     cover: {
       src: "/work/parking-yolo.jpg",
       alt: "YOLO parking compliance detections",
-      caption: "Fig. 7 — Detections in frame.",
+      caption: "Fig. 6 — Detections in frame.",
     },
   },
 
@@ -276,7 +258,7 @@ export const projects: Project[] = [
     cover: {
       src: "/work/bittorrent.jpg",
       alt: "BitTorrent client downloading from peers",
-      caption: "Fig. 8 — The client in operation.",
+      caption: "Fig. 7 — The client in operation.",
     },
   },
 
@@ -303,7 +285,7 @@ export const projects: Project[] = [
     cover: {
       src: "/work/redis.jpg",
       alt: "Redis client in Rust",
-      caption: "Fig. 9 — The client under load.",
+      caption: "Fig. 8 — The client under load.",
     },
   },
 
@@ -331,7 +313,7 @@ export const projects: Project[] = [
     cover: {
       src: "/work/bug-bounty.jpg",
       alt: "Reconnaissance framework output",
-      caption: "Fig. 10 — A reconnaissance run.",
+      caption: "Fig. 9 — A reconnaissance run.",
     },
   },
 ];
