@@ -186,6 +186,13 @@
   .masthead {
     --mw: 88;
     --adv: 0.78;
+    /* Display furniture, not copy: the letter boxes overhang the folio bar
+       and the dateline, and a text caret or a blue selection sweep across a
+       masthead reads as a defect. Screen readers still get the name — this
+       only switches off pointer selection. */
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: default;
     font-family: var(--font-display);
     font-weight: 700;
     font-size: clamp(
